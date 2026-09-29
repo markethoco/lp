@@ -1,0 +1,237 @@
+/* =========================================================
+   MarketHO — Design Tokens
+   Basado en Manual de Identidad Visual + UX/UI v1.2
+   ========================================================= */
+
+:root {
+
+  /* =======================================================
+     BRAND
+     ======================================================= */
+
+  --brand-primary: #A11917;
+  --brand-primary-hover: #861512;
+
+  --brand-carbon: #3D3D3D;
+  --brand-black: #000000;
+  --brand-white: #FFFFFF;
+
+
+  /* =======================================================
+     FUNCTIONAL COLOR
+     ======================================================= */
+
+  --color-primary: #A11917;
+  --color-primary-hover: #861512;
+
+  --text-primary: #3D3D3D;
+  --text-muted: #6B6B6B;
+  --text-inverse: #FFFFFF;
+
+  --surface-primary: #FFFFFF;
+  --surface-secondary: #F5F5F5;
+
+  --border-default: #E5E5E5;
+
+  --status-success: #176B3A;
+  --status-warning: #8A5A00;
+  --status-info: #1F5A94;
+  --status-danger: #B42318;
+
+
+  /* =======================================================
+     GRADIENTS
+     ======================================================= */
+
+  --gradient-hero-dark:
+    radial-gradient(
+      circle at 78% 18%,
+      #A11917 0%,
+      #5D0F0D 22%,
+      #1C1C1C 52%,
+      #000000 100%
+    );
+
+  --gradient-surface-dark:
+    radial-gradient(
+      circle at 18% 0%,
+      #4A4A4A 0%,
+      #262626 44%,
+      #111111 72%,
+      #000000 100%
+    );
+
+  --gradient-surface-light:
+    radial-gradient(
+      circle at 82% 18%,
+      #FFFFFF 0%,
+      #F7F7F7 60%,
+      #EDEDED 100%
+    );
+
+  --gradient-accent-red:
+    linear-gradient(
+      135deg,
+      #A11917 0%,
+      #861512 58%,
+      #4B0B0A 100%
+    );
+
+
+  /* =======================================================
+     TYPOGRAPHY
+     ======================================================= */
+
+  --font-family-primary:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-extra-bold: 800;
+
+
+  /* H1 */
+
+  --font-h1-desktop: 64px;
+  --font-h1-tablet: 48px;
+  --font-h1-mobile: 40px;
+
+  --line-h1: 1.08;
+  --tracking-h1: -0.02em;
+
+
+  /* H2 */
+
+  --font-h2-desktop: 44px;
+  --font-h2-tablet: 38px;
+  --font-h2-mobile: 32px;
+
+  --line-h2: 1.12;
+  --tracking-h2: -0.01em;
+
+
+  /* H3 */
+
+  --font-h3-desktop: 32px;
+  --font-h3-tablet: 28px;
+  --font-h3-mobile: 24px;
+
+  --line-h3: 1.18;
+  --tracking-h3: 0;
+
+
+  /* Body */
+
+  --font-body-large-desktop: 18px;
+  --font-body-large-tablet: 18px;
+  --font-body-large-mobile: 16px;
+
+  --font-body: 16px;
+
+  --line-body: 1.6;
+  --tracking-body: 0;
+
+
+  /* Interface */
+
+  --font-ui: 16px;
+  --line-ui: 1.2;
+
+  --font-caption: 14px;
+  --line-caption: 1.35;
+
+
+  /* Reading width */
+
+  --measure-readable: 70ch;
+
+
+  /* =======================================================
+     SPACING
+     Base 4 px
+     ======================================================= */
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+
+  /* =======================================================
+     LAYOUT
+     ======================================================= */
+
+  --container-max: 1200px;
+
+
+  /* =======================================================
+     BREAKPOINTS
+     Referencia documental
+     ======================================================= */
+
+  --breakpoint-mobile-max: 767px;
+  --breakpoint-tablet-min: 768px;
+  --breakpoint-tablet-max: 1023px;
+  --breakpoint-desktop-min: 1024px;
+  --breakpoint-wide-min: 1440px;
+
+
+  /* =======================================================
+     RADII
+     ======================================================= */
+
+  --radius-md: 8px;
+
+
+  /* =======================================================
+     CONTROLS
+     ======================================================= */
+
+  --control-height-min: 44px;
+  --control-height-default: 48px;
+
+  --touch-target-min: 44px;
+
+
+  /* =======================================================
+     FOCUS
+     ======================================================= */
+
+  --focus-width: 2px;
+  --focus-color: #A11917;
+
+
+  /* =======================================================
+     MOTION
+     ======================================================= */
+
+  --motion-micro: 160ms;
+  --motion-control: 220ms;
+  --motion-entry: 320ms;
+
+  --motion-fast: 160ms;
+
+  --easing-standard:
+    cubic-bezier(0.2, 0.8, 0.2, 1);
+
+
+  /* =======================================================
+     LAYERING
+     ======================================================= */
+
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-header: 200;
+  --z-modal: 1000;
+}

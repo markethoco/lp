@@ -1,0 +1,330 @@
+/* =========================================================
+   MarketHO — Base
+   Estilos globales y normalización
+   ========================================================= */
+
+
+/* =========================================================
+   FONT
+   ========================================================= */
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/Inter-VariableFont_opsz,wght.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  font-family: var(--font-family-primary);
+  background: var(--surface-primary);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  font-family: var(--font-family-primary);
+  font-size: var(--font-body);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-body);
+
+  color: var(--text-primary);
+  background: var(--surface-primary);
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* =========================================================
+   MEDIA
+   ========================================================= */
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-primary);
+  font-weight: var(--font-weight-extra-bold);
+  text-wrap: balance;
+}
+
+
+/* H1 — Mobile */
+
+h1 {
+  margin-bottom: var(--space-6);
+
+  font-size: var(--font-h1-mobile);
+  line-height: var(--line-h1);
+  letter-spacing: var(--tracking-h1);
+}
+
+
+/* H2 — Mobile */
+
+h2 {
+  margin-bottom: var(--space-6);
+
+  font-size: var(--font-h2-mobile);
+  line-height: var(--line-h2);
+  letter-spacing: var(--tracking-h2);
+}
+
+
+/* H3 — Mobile */
+
+h3 {
+  margin-bottom: var(--space-4);
+
+  font-size: var(--font-h3-mobile);
+  line-height: var(--line-h3);
+  letter-spacing: var(--tracking-h3);
+}
+
+
+/* Secondary headings */
+
+h4 {
+  margin-bottom: var(--space-4);
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+h5 {
+  margin-bottom: var(--space-3);
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+h6 {
+  margin-bottom: var(--space-3);
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+
+/* Body text */
+
+p {
+  margin-bottom: var(--space-4);
+  max-width: var(--measure-readable);
+
+  font-size: var(--font-body);
+  line-height: var(--line-body);
+  letter-spacing: var(--tracking-body);
+}
+
+
+/* Large body */
+
+.text-large {
+  font-size: var(--font-body-large-mobile);
+  line-height: var(--line-body);
+}
+
+
+/* Secondary text */
+
+small,
+.text-caption {
+  font-size: var(--font-caption);
+  line-height: var(--line-caption);
+  color: var(--text-muted);
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+
+/* =========================================================
+   LISTS
+   ========================================================= */
+
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: var(--space-4);
+}
+
+li + li {
+  margin-top: var(--space-2);
+}
+
+
+/* =========================================================
+   FORMS / CONTROLS
+   ========================================================= */
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+input,
+textarea,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: var(--focus-width) solid var(--focus-color);
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+/* =========================================================
+   RESPONSIVE TYPOGRAPHY
+   ========================================================= */
+
+
+/* Tablet */
+
+@media (min-width: 768px) {
+
+  h1 {
+    font-size: var(--font-h1-tablet);
+  }
+
+  h2 {
+    font-size: var(--font-h2-tablet);
+  }
+
+  h3 {
+    font-size: var(--font-h3-tablet);
+  }
+
+  .text-large {
+    font-size: var(--font-body-large-tablet);
+  }
+}
+
+
+/* Desktop */
+
+@media (min-width: 1024px) {
+
+  h1 {
+    font-size: var(--font-h1-desktop);
+  }
+
+  h2 {
+    font-size: var(--font-h2-desktop);
+  }
+
+  h3 {
+    font-size: var(--font-h3-desktop);
+  }
+
+  .text-large {
+    font-size: var(--font-body-large-desktop);
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

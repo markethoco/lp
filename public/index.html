@@ -1,11 +1,981 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
-  <title>MarketHO</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>MarketHO | Aceleración comercial, CRM y marketing</title>
+
+  <meta
+    name="description"
+    content="MarketHO organiza operaciones comerciales, implementa CRM y conecta marketing, seguimiento y medición para empresas que ya venden."
+  >
+
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/utilities.css">
 </head>
+
 <body>
-  <h1>MarketHO</h1>
-  <p>Sitio en preparación.</p>
+
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
+
+  <header class="site-header">
+
+    <div class="container site-header__inner">
+
+      <a
+        class="site-logo"
+        href="/"
+        aria-label="MarketHO - Inicio"
+      >
+        <img
+          src="/assets/images/marketho-logo.svg"
+          alt="MarketHO"
+          width="220"
+        >
+      </a>
+
+
+      <nav
+        class="site-nav"
+        aria-label="Navegación principal"
+      >
+        <a href="/servicios/">Servicios</a>
+        <a href="/servicios/crm/">CRM</a>
+        <a href="/servicios/aceleracion-comercial/">
+          Aceleración comercial
+        </a>
+        <a href="/portafolio/">Portafolio</a>
+        <a href="/nosotros/">Nosotros</a>
+      </nav>
+
+
+      <a
+        class="btn btn--primary site-header__cta"
+        href="#contacto"
+      >
+        Solicitar diagnóstico
+      </a>
+
+
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Abrir menú"
+      >
+        <span class="menu-toggle__line"></span>
+        <span class="menu-toggle__line"></span>
+        <span class="menu-toggle__line"></span>
+      </button>
+
+    </div>
+
+
+    <div
+      class="mobile-menu"
+      id="mobile-menu"
+      hidden
+    >
+
+      <div class="container mobile-menu__inner">
+
+        <nav
+          class="mobile-nav"
+          aria-label="Navegación móvil"
+        >
+          <a href="/servicios/">Servicios</a>
+          <a href="/servicios/crm/">CRM</a>
+          <a href="/servicios/aceleracion-comercial/">
+            Aceleración comercial
+          </a>
+          <a href="/portafolio/">Portafolio</a>
+          <a href="/nosotros/">Nosotros</a>
+        </nav>
+
+
+        <a
+          class="btn btn--primary mobile-menu__cta"
+          href="#contacto"
+        >
+          Solicitar diagnóstico
+        </a>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       MAIN
+       ===================================================== -->
+
+  <main>
+
+
+    <!-- ===================================================
+         HERO
+         =================================================== -->
+
+    <section
+      class="hero surface-hero-dark"
+      id="inicio"
+    >
+
+      <div class="container hero__inner">
+
+        <div class="hero__content">
+
+          <p class="hero__eyebrow">
+            Aceleración comercial · CRM · Marketing
+          </p>
+
+
+          <h1>
+            Aceleración comercial para empresas que ya venden.
+          </h1>
+
+
+          <p class="hero__lead">
+            Organizamos tu operación comercial, implementamos CRM y conectamos
+            marketing, seguimiento y medición para generar nuevas oportunidades
+            con mayor control.
+          </p>
+
+
+          <div class="hero__actions">
+
+            <a
+              class="btn btn--primary"
+              href="#contacto"
+            >
+              Solicitar diagnóstico
+            </a>
+
+
+            <a
+              class="btn btn--secondary btn--inverse"
+              href="#metodologia"
+            >
+              Conocer cómo trabajamos
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         PROBLEMA
+         =================================================== -->
+
+    <section
+      class="problem section"
+      id="problema"
+    >
+
+      <div class="container">
+
+        <div class="problem__grid">
+
+          <div class="problem__content">
+
+            <p class="section-eyebrow">
+              El problema no siempre es la falta de prospectos
+            </p>
+
+
+            <h2>
+              Generar más prospectos no siempre significa vender más.
+            </h2>
+
+
+            <p class="text-large">
+              Tu empresa puede tener trayectoria, equipo comercial y oportunidades
+              llegando todos los días. Pero si el seguimiento está disperso entre
+              WhatsApp, hojas de cálculo, agendas y tareas manuales, crecer se
+              vuelve cada vez más difícil.
+            </p>
+
+          </div>
+
+
+          <div class="problem__panel">
+
+            <p class="problem__panel-title">
+              ¿Puedes responder fácilmente estas preguntas?
+            </p>
+
+
+            <ul class="problem__list">
+              <li>¿Quién está atendiendo cada oportunidad?</li>
+              <li>¿Cuánto tarda el primer contacto?</li>
+              <li>¿A quién hay que hacerle seguimiento?</li>
+              <li>¿Por qué se están perdiendo algunas ventas?</li>
+              <li>¿Qué campañas están generando oportunidades reales?</li>
+              <li>¿Qué pasó con los prospectos que llegaron el mes pasado?</li>
+            </ul>
+
+          </div>
+
+        </div>
+
+
+        <div class="problem__conclusion">
+
+          <p>
+            Antes de generar más demanda, necesitamos asegurarnos de que tu
+            operación comercial esté preparada para gestionarla.
+          </p>
+
+        </div>
+
+
+        <div class="section-cta-box">
+
+          <div class="section-cta-box__content">
+
+            <p class="section-cta-box__eyebrow">
+              Diagnóstico comercial
+            </p>
+
+            <h3>
+              ¿Tu operación comercial está preparada para crecer?
+            </h3>
+
+            <p>
+              Revisemos dónde se están perdiendo oportunidades y qué deberíamos
+              organizar primero.
+            </p>
+
+          </div>
+
+
+          <div class="section-cta-box__action">
+
+            <a
+              class="btn btn--primary"
+              href="#contacto"
+            >
+              Revisar mi operación comercial
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         METODOLOGÍA
+         =================================================== -->
+
+    <section
+      class="solution section section--large surface-light"
+      id="metodologia"
+    >
+
+      <div class="container">
+
+
+        <div class="solution__intro">
+
+          <div class="solution__heading">
+
+            <p class="section-eyebrow">
+              La tecnología viene después del proceso
+            </p>
+
+
+            <h2>
+              Un CRM no organiza una empresa por sí solo.
+            </h2>
+
+          </div>
+
+
+          <div class="solution__description">
+
+            <p class="text-large">
+              Primero definimos cómo debe funcionar tu proceso comercial.
+              Después configuramos la tecnología para sostenerlo.
+            </p>
+
+
+            <p>
+              MarketHO conecta captación, seguimiento, CRM y medición para que
+              cada oportunidad tenga un responsable, un siguiente paso y un
+              resultado visible.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="solution__system">
+
+          <article class="solution__item">
+
+            <span class="solution__number">01</span>
+
+            <h3>
+              Proceso comercial
+            </h3>
+
+            <p>
+              Definimos etapas, responsabilidades, criterios de avance y qué debe
+              ocurrir con cada oportunidad desde que llega hasta que se convierte
+              o se descarta.
+            </p>
+
+          </article>
+
+
+          <article class="solution__item">
+
+            <span class="solution__number">02</span>
+
+            <h3>
+              CRM
+            </h3>
+
+            <p>
+              Configuramos el CRM alrededor del proceso real de tu empresa:
+              pipelines, responsables, actividades, automatizaciones y datos
+              necesarios para gestionar la operación.
+            </p>
+
+          </article>
+
+
+          <article class="solution__item">
+
+            <span class="solution__number">03</span>
+
+            <h3>
+              Generación de oportunidades
+            </h3>
+
+            <p>
+              Conectamos campañas, formularios y otros puntos de captación con el
+              proceso comercial para que los nuevos prospectos no terminen
+              aislados del equipo que debe atenderlos.
+            </p>
+
+          </article>
+
+
+          <article class="solution__item">
+
+            <span class="solution__number">04</span>
+
+            <h3>
+              Seguimiento y medición
+            </h3>
+
+            <p>
+              Organizamos la información necesaria para entender qué está
+              ocurriendo: tiempos de respuesta, seguimiento, resultados y origen
+              de las oportunidades.
+            </p>
+
+          </article>
+
+        </div>
+
+
+        <div class="solution__principle">
+
+          <p>
+            El software es una herramienta. El objetivo es construir una operación
+            comercial que pueda entenderse, medirse y mejorarse.
+          </p>
+
+        </div>
+
+
+        <div class="section-cta-box">
+
+          <div class="section-cta-box__content">
+
+            <p class="section-cta-box__eyebrow">
+              Procesos antes que herramientas
+            </p>
+
+            <h3>
+              ¿Necesitas ordenar tu proceso comercial?
+            </h3>
+
+            <p>
+              Diseñemos primero la operación y configuremos la tecnología
+              alrededor de ella.
+            </p>
+
+          </div>
+
+
+          <div class="section-cta-box__action">
+
+            <a
+              class="btn btn--primary"
+              href="/servicios/crm/"
+            >
+              Conocer nuestro enfoque de CRM
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         SERVICIOS
+         =================================================== -->
+
+    <section
+      class="services section section--large"
+      id="servicios"
+    >
+
+      <div class="container">
+
+
+        <div class="services__intro">
+
+          <p class="section-eyebrow">
+            Qué hacemos
+          </p>
+
+
+          <h2>
+            Ordenamos el sistema comercial, no solamente una parte.
+          </h2>
+
+
+          <p class="text-large">
+            Una operación comercial funciona mejor cuando marketing, ventas,
+            seguimiento, tecnología y medición dejan de trabajar como elementos
+            aislados.
+          </p>
+
+
+          <p>
+            MarketHO interviene en los puntos necesarios para construir ese
+            sistema.
+          </p>
+
+        </div>
+
+
+        <div class="services__grid">
+
+
+          <article class="service-item">
+
+            <div class="service-item__meta">
+
+              <span class="service-item__number">01</span>
+
+              <span class="service-item__category">
+                Estrategia
+              </span>
+
+            </div>
+
+
+            <h3>
+              Aceleración comercial
+            </h3>
+
+
+            <p>
+              Organizamos el proceso que conecta la generación de oportunidades
+              con el trabajo del equipo comercial.
+            </p>
+
+
+            <p>
+              Analizamos cómo llegan los prospectos, quién los atiende, cómo se
+              realiza el seguimiento y qué información necesita la empresa para
+              mejorar sus resultados.
+            </p>
+
+
+            <a
+              class="btn btn--tertiary"
+              href="/servicios/aceleracion-comercial/"
+            >
+              Conocer Aceleración comercial →
+            </a>
+
+          </article>
+
+
+          <article class="service-item">
+
+            <div class="service-item__meta">
+
+              <span class="service-item__number">02</span>
+
+              <span class="service-item__category">
+                Tecnología
+              </span>
+
+            </div>
+
+
+            <h3>
+              CRM y procesos comerciales
+            </h3>
+
+
+            <p>
+              Diseñamos la estructura comercial y configuramos el CRM para
+              reflejar cómo realmente trabaja la empresa.
+            </p>
+
+
+            <p>
+              Pipeline, responsables, actividades, automatizaciones y seguimiento
+              dejan de depender de la memoria o de herramientas dispersas.
+            </p>
+
+
+            <a
+              class="btn btn--tertiary"
+              href="/servicios/crm/"
+            >
+              Conocer CRM y procesos comerciales →
+            </a>
+
+          </article>
+
+
+          <article class="service-item">
+
+            <div class="service-item__meta">
+
+              <span class="service-item__number">03</span>
+
+              <span class="service-item__category">
+                Captación
+              </span>
+
+            </div>
+
+
+            <h3>
+              Generación de oportunidades
+            </h3>
+
+
+            <p>
+              Diseñamos y gestionamos estrategias de captación para generar
+              nuevas oportunidades comerciales.
+            </p>
+
+
+            <p>
+              La pauta no se plantea como una actividad independiente: debe
+              integrarse con el proceso que recibirá y gestionará cada prospecto.
+            </p>
+
+
+            <a
+              class="btn btn--tertiary"
+              href="/servicios/generacion-de-oportunidades/"
+            >
+              Conocer Generación de oportunidades →
+            </a>
+
+          </article>
+
+
+          <article class="service-item">
+
+            <div class="service-item__meta">
+
+              <span class="service-item__number">04</span>
+
+              <span class="service-item__category">
+                Datos
+              </span>
+
+            </div>
+
+
+            <h3>
+              Medición e integración
+            </h3>
+
+
+            <p>
+              Conectamos los puntos necesarios para entender de dónde vienen las
+              oportunidades y qué ocurre después de que ingresan.
+            </p>
+
+
+            <p>
+              Marketing y ventas necesitan compartir información para poder tomar
+              mejores decisiones.
+            </p>
+
+
+            <a
+              class="btn btn--tertiary"
+              href="/servicios/medicion-integraciones/"
+            >
+              Conocer Medición e integraciones →
+            </a>
+
+          </article>
+
+        </div>
+
+
+        <div class="section-cta-box">
+
+          <div class="section-cta-box__content">
+
+            <p class="section-cta-box__eyebrow">
+              Una operación conectada funciona diferente
+            </p>
+
+
+            <h3>
+              ¿Marketing genera oportunidades pero ventas trabaja por otro lado?
+            </h3>
+
+
+            <p>
+              Podemos conectar ambos procesos y construir una operación con mayor
+              visibilidad.
+            </p>
+
+          </div>
+
+
+          <div class="section-cta-box__action">
+
+            <a
+              class="btn btn--primary"
+              href="#contacto"
+            >
+              Conectar mi operación comercial
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         CONTACTO
+         =================================================== -->
+
+    <section
+      class="contact-section section section--large surface-light"
+      id="contacto"
+    >
+
+      <div class="container">
+
+        <div class="contact-section__grid">
+
+
+          <div class="contact-section__intro">
+
+            <p class="section-eyebrow">
+              Hablemos de tu operación
+            </p>
+
+
+            <h2>
+              Cuéntanos quién eres. Nosotros empezamos por entender el contexto.
+            </h2>
+
+
+            <p class="text-large">
+              No necesitas saber qué CRM implementar, qué automatización utilizar
+              o qué campaña necesitas.
+            </p>
+
+
+            <p>
+              Déjanos tus datos y nos pondremos en contacto contigo para conocer
+              mejor tu operación y determinar si MarketHO puede ayudarte.
+            </p>
+
+          </div>
+
+
+          <div class="contact-form-panel">
+
+            <form
+              class="contact-form"
+              id="contact-form"
+              action="/api/contact"
+              method="post"
+              novalidate
+            >
+
+              <div class="form-field">
+
+                <label for="nombre_completo">
+                  Nombre completo
+                </label>
+
+                <input
+                  type="text"
+                  id="nombre_completo"
+                  name="nombre_completo"
+                  autocomplete="name"
+                  required
+                >
+
+                <p
+                  class="form-error"
+                  id="nombre_completo-error"
+                  aria-live="polite"
+                ></p>
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="whatsapp">
+                  WhatsApp
+                </label>
+
+                <input
+                  type="tel"
+                  id="whatsapp"
+                  name="whatsapp"
+                  autocomplete="tel"
+                  inputmode="tel"
+                  required
+                >
+
+                <p
+                  class="form-help"
+                >
+                  Incluye el indicativo de tu país.
+                </p>
+
+                <p
+                  class="form-error"
+                  id="whatsapp-error"
+                  aria-live="polite"
+                ></p>
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="email">
+                  Email
+                </label>
+
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  autocomplete="email"
+                  inputmode="email"
+                  required
+                >
+
+                <p
+                  class="form-error"
+                  id="email-error"
+                  aria-live="polite"
+                ></p>
+
+              </div>
+
+
+              <div class="form-consent">
+
+                <input
+                  type="checkbox"
+                  id="consentimiento"
+                  name="consentimiento"
+                  value="si"
+                  required
+                >
+
+                <label for="consentimiento">
+                  Autorizo el tratamiento de mis datos personales de acuerdo con
+                  la
+                  <a href="/privacidad/">
+                    política de privacidad
+                  </a>.
+                </label>
+
+              </div>
+
+
+              <p
+                class="form-error form-error--consent"
+                id="consentimiento-error"
+                aria-live="polite"
+              ></p>
+
+
+              <!--
+                Turnstile se renderiza desde forms.js.
+
+                Local:
+                site key oficial de prueba.
+
+                Producción:
+                site key real de MarketHO.
+              -->
+
+              <div
+                class="turnstile-container"
+                id="turnstile-container"
+              ></div>
+
+
+              <div
+                class="form-status"
+                id="form-status"
+                role="status"
+                aria-live="polite"
+              ></div>
+
+
+              <button
+                class="btn btn--primary contact-form__submit"
+                type="submit"
+              >
+                <span class="contact-form__submit-text">
+                  Solicitar diagnóstico
+                </span>
+
+                <span
+                  class="contact-form__submit-loading"
+                  hidden
+                >
+                  Enviando…
+                </span>
+              </button>
+
+
+              <p class="contact-form__privacy">
+                Usaremos estos datos únicamente para responder tu solicitud y
+                gestionar el contacto comercial.
+              </p>
+
+
+              <!-- ATTRIBUTION -->
+
+              <input
+                type="hidden"
+                name="pagina_origen"
+              >
+
+              <input
+                type="hidden"
+                name="page_path"
+              >
+
+              <input
+                type="hidden"
+                name="utm_source"
+              >
+
+              <input
+                type="hidden"
+                name="utm_medium"
+              >
+
+              <input
+                type="hidden"
+                name="utm_campaign"
+              >
+
+              <input
+                type="hidden"
+                name="utm_content"
+              >
+
+              <input
+                type="hidden"
+                name="utm_term"
+              >
+
+              <input
+                type="hidden"
+                name="gclid"
+              >
+
+              <input
+                type="hidden"
+                name="fbclid"
+              >
+
+              <input
+                type="hidden"
+                name="ttclid"
+              >
+
+              <input
+                type="hidden"
+                name="referrer"
+              >
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
+  <script src="/js/navigation.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/forms.js"></script>
+
 </body>
+
 </html>
