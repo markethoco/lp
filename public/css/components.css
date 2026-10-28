@@ -1499,3 +1499,1296 @@ body.menu-open {
   }
 
 }
+/* =========================================================
+   MarketHO — Floating WhatsApp Widget
+   ========================================================= */
+
+.whatsapp-widget {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 950;
+}
+
+
+/* =========================================================
+   LAUNCHER
+   ========================================================= */
+
+.whatsapp-widget__launcher {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: inherit;
+}
+
+
+.whatsapp-widget__label {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 44px;
+  padding: 0 16px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+
+  background: #262626;
+  color: #FFFFFF;
+
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.16);
+
+  transition:
+    transform var(--motion-control) var(--easing-standard),
+    background-color var(--motion-control) var(--easing-standard);
+}
+
+
+.whatsapp-widget__launcher:hover
+.whatsapp-widget__label {
+  background: #1C1C1C;
+  transform: translateY(-1px);
+}
+
+
+.whatsapp-widget__button {
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  width: 58px;
+  height: 58px;
+
+  flex: 0 0 58px;
+
+  border-radius: 50%;
+
+  background: #25D366;
+  color: #FFFFFF;
+
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.20);
+
+  transition:
+    transform var(--motion-control) var(--easing-standard),
+    box-shadow var(--motion-control) var(--easing-standard);
+}
+
+
+.whatsapp-widget__launcher:hover
+.whatsapp-widget__button {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.24);
+}
+
+
+.whatsapp-widget__icon {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+
+  width: 30px;
+  height: 30px;
+}
+
+
+.whatsapp-widget__icon svg {
+  display: block;
+
+  width: 30px;
+  height: 30px;
+}
+
+
+/* =========================================================
+   SUBTLE WAVE
+   ========================================================= */
+
+.whatsapp-widget__wave {
+  position: absolute;
+  inset: 0;
+
+  border: 1px solid rgba(37, 211, 102, 0.55);
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  animation:
+    whatsapp-wave 3.8s ease-out infinite;
+}
+
+
+@keyframes whatsapp-wave {
+
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  12% {
+    opacity: 0.45;
+  }
+
+  55% {
+    opacity: 0;
+    transform: scale(1.42);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.42);
+  }
+
+}
+
+
+/* =========================================================
+   PANEL
+   ========================================================= */
+
+.whatsapp-widget__panel {
+  position: absolute;
+
+  right: 0;
+  bottom: 76px;
+
+  width: min(360px, calc(100vw - 32px));
+
+  padding: 24px;
+
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+
+  background: #FFFFFF;
+  color: var(--text-primary);
+
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.20);
+
+  transform-origin: right bottom;
+
+  animation:
+    whatsapp-panel-in 260ms var(--easing-standard);
+}
+
+
+.whatsapp-widget__panel[hidden] {
+  display: none;
+}
+
+
+@keyframes whatsapp-panel-in {
+
+  from {
+    opacity: 0;
+    transform:
+      translateY(10px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+
+/* =========================================================
+   CLOSE
+   ========================================================= */
+
+.whatsapp-widget__close {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  display: grid;
+  place-items: center;
+
+  width: 36px;
+  height: 36px;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: transparent;
+  color: var(--text-muted);
+
+  font-size: 24px;
+  line-height: 1;
+
+  transition:
+    background-color var(--motion-micro) var(--easing-standard),
+    color var(--motion-micro) var(--easing-standard);
+}
+
+
+.whatsapp-widget__close:hover {
+  background: var(--surface-secondary);
+  color: var(--text-primary);
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.whatsapp-widget__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding-right: 40px;
+
+  color: var(--brand-carbon);
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+
+.whatsapp-widget__brand-mark {
+  display: grid;
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 50%;
+
+  background: #25D366;
+  color: #FFFFFF;
+}
+
+
+.whatsapp-widget__brand-mark svg {
+  width: 20px;
+  height: 20px;
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.whatsapp-widget__message {
+  margin:
+    22px
+    0
+    20px;
+
+  max-width: 28ch;
+
+  color: var(--brand-carbon);
+
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+
+/* =========================================================
+   WHATSAPP CTA
+   ========================================================= */
+
+.whatsapp-widget__cta {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  width: 100%;
+  min-height: 48px;
+
+  padding: 12px 18px;
+
+  overflow: hidden;
+
+  border: 0;
+  border-radius: var(--radius-md);
+
+  background: #25D366;
+  color: #FFFFFF;
+
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+
+  box-shadow:
+    0 8px 20px rgba(37, 211, 102, 0.18);
+
+  transition:
+    transform var(--motion-control) var(--easing-standard),
+    box-shadow var(--motion-control) var(--easing-standard),
+    filter var(--motion-control) var(--easing-standard);
+
+  animation:
+    whatsapp-cta-breathe 5s ease-in-out infinite;
+}
+
+
+.whatsapp-widget__cta:hover {
+  transform: translateY(-1px);
+
+  filter: brightness(0.96);
+
+  box-shadow:
+    0 12px 26px rgba(37, 211, 102, 0.24);
+}
+
+
+.whatsapp-widget__cta-icon {
+  display: grid;
+  place-items: center;
+
+  width: 22px;
+  height: 22px;
+}
+
+
+.whatsapp-widget__cta-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+
+@keyframes whatsapp-cta-breathe {
+
+  0%,
+  78%,
+  100% {
+    box-shadow:
+      0 8px 20px rgba(37, 211, 102, 0.18);
+  }
+
+  88% {
+    box-shadow:
+      0 8px 20px rgba(37, 211, 102, 0.18),
+      0 0 0 5px rgba(37, 211, 102, 0.08);
+  }
+
+}
+
+
+/* =========================================================
+   OPEN STATE
+   ========================================================= */
+
+.whatsapp-widget--open
+.whatsapp-widget__wave {
+  animation-play-state: paused;
+  opacity: 0;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+  .whatsapp-widget {
+    right: 16px;
+    bottom: 16px;
+  }
+
+
+  .whatsapp-widget__button {
+    width: 56px;
+    height: 56px;
+
+    flex-basis: 56px;
+  }
+
+
+  .whatsapp-widget__label {
+    max-width: 190px;
+
+    padding:
+      0
+      14px;
+
+    font-size: 13px;
+  }
+
+
+  .whatsapp-widget__panel {
+    position: fixed;
+
+    right: 16px;
+    bottom: 84px;
+
+    width:
+      calc(100vw - 32px);
+
+    max-width: 360px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+  .whatsapp-widget__label {
+    max-width: 158px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+
+  .whatsapp-widget__panel {
+    padding: 22px;
+  }
+
+
+  .whatsapp-widget__message {
+    font-size: 19px;
+  }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY — REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .whatsapp-widget__wave,
+  .whatsapp-widget__cta,
+  .whatsapp-widget__panel {
+    animation: none !important;
+  }
+
+
+  .whatsapp-widget__launcher:hover
+  .whatsapp-widget__button,
+
+  .whatsapp-widget__launcher:hover
+  .whatsapp-widget__label,
+
+  .whatsapp-widget__cta:hover {
+    transform: none;
+  }
+
+}
+
+/* =========================================================
+   MARKET HO — GLOBAL NAVIGATION DROPDOWN
+   ========================================================= */
+
+
+/* =========================================================
+   DESKTOP SERVICES DROPDOWN
+   ========================================================= */
+
+.site-nav-dropdown {
+  position: relative;
+}
+
+.site-nav-dropdown__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  min-height: 44px;
+  padding: 0;
+
+  color: var(--text-primary);
+  background: transparent;
+
+  border: 0;
+
+  font-family: var(--font-family-primary);
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    color var(--motion-control) var(--easing-standard);
+}
+
+.site-nav-dropdown__toggle:hover,
+.site-nav-dropdown__toggle[data-active="true"],
+.site-nav-dropdown.is-open .site-nav-dropdown__toggle {
+  color: var(--color-primary);
+}
+
+
+/* Arrow */
+
+.site-nav-dropdown__arrow {
+  display: inline-block;
+
+  font-size: 13px;
+  line-height: 1;
+
+  transition:
+    transform var(--motion-control) var(--easing-standard);
+}
+
+.site-nav-dropdown.is-open
+.site-nav-dropdown__arrow {
+  transform: rotate(180deg);
+}
+
+
+/* Menu */
+
+.site-nav-dropdown__menu {
+  position: absolute;
+
+  top: calc(100% + 12px);
+  left: -20px;
+
+  width: 310px;
+
+  padding: 10px;
+
+  background: var(--surface-primary);
+
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.14);
+
+  z-index: 1000;
+
+  animation:
+    market-nav-dropdown-in
+    180ms
+    var(--easing-standard);
+}
+
+.site-nav-dropdown__menu[hidden] {
+  display: none;
+}
+
+
+/* Dropdown links */
+
+.site-nav-dropdown__menu a {
+  display: flex;
+  align-items: center;
+
+  min-height: 46px;
+
+  padding:
+    10px
+    12px;
+
+  color: var(--text-primary);
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.35;
+
+  text-decoration: none;
+
+  transition:
+    color var(--motion-micro) var(--easing-standard),
+    background-color var(--motion-micro) var(--easing-standard);
+}
+
+.site-nav-dropdown__menu a:hover {
+  color: var(--color-primary);
+
+  background:
+    var(--surface-secondary);
+}
+
+
+/* First link = overview */
+
+.site-nav-dropdown__menu a:first-child {
+  margin-bottom: 6px;
+  padding-bottom: 14px;
+
+  color: var(--color-primary);
+
+  font-weight: var(--font-weight-bold);
+
+  border-bottom:
+    1px solid var(--border-default);
+
+  border-radius:
+    8px
+    8px
+    0
+    0;
+}
+
+
+/* Entrance */
+
+@keyframes market-nav-dropdown-in {
+
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE SERVICES ACCORDION
+   ========================================================= */
+
+.mobile-services-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  min-height: 56px;
+
+  padding: 0;
+
+  color: var(--text-primary);
+  background: transparent;
+
+  border: 0;
+  border-bottom:
+    1px solid var(--border-default);
+
+  font-family: var(--font-family-primary);
+  font-size: 16px;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.4;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.mobile-services-toggle:hover {
+  color: var(--color-primary);
+}
+
+
+.mobile-services-toggle__arrow {
+  display: inline-block;
+
+  font-size: 14px;
+
+  transition:
+    transform var(--motion-control) var(--easing-standard);
+}
+
+.mobile-services-toggle[
+  aria-expanded="true"
+]
+.mobile-services-toggle__arrow {
+  transform: rotate(180deg);
+}
+
+
+/* Mobile submenu */
+
+.mobile-services-menu {
+  padding:
+    6px
+    0
+    10px
+    18px;
+
+  border-bottom:
+    1px solid var(--border-default);
+
+  background:
+    var(--surface-secondary);
+}
+
+.mobile-services-menu[hidden] {
+  display: none;
+}
+
+
+.mobile-nav
+.mobile-services-menu
+a {
+  min-height: 48px;
+
+  padding:
+    8px
+    12px;
+
+  color: var(--text-muted);
+
+  border-bottom: 0;
+
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.mobile-nav
+.mobile-services-menu
+a:hover {
+  color: var(--color-primary);
+}
+
+
+.mobile-nav
+.mobile-services-menu
+a:first-child {
+  color: var(--color-primary);
+
+  font-weight: var(--font-weight-bold);
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+.site-nav-dropdown__toggle:focus-visible,
+.mobile-services-toggle:focus-visible {
+  outline:
+    2px solid var(--color-primary);
+
+  outline-offset: 4px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .site-nav-dropdown__menu {
+    animation: none;
+  }
+
+  .site-nav-dropdown__arrow,
+  .mobile-services-toggle__arrow {
+    transition: none;
+  }
+
+}
+
+
+/* =========================================================
+   DESKTOP ONLY
+   ========================================================= */
+
+@media (min-width: 1024px) {
+
+  .mobile-services-toggle,
+  .mobile-services-menu {
+    display: none;
+  }
+
+}
+
+/* =========================================================
+   MARKETHO — PORTFOLIO
+   ========================================================= */
+
+
+/* =========================================================
+   INTRO
+   ========================================================= */
+
+.portfolio {
+  background: var(--surface-primary);
+}
+
+.portfolio__intro {
+  max-width: 820px;
+}
+
+.portfolio__intro h2 {
+  max-width: 760px;
+
+  margin-bottom: var(--space-6);
+}
+
+.portfolio__intro .text-large {
+  max-width: 720px;
+
+  margin-bottom: 0;
+
+  color: var(--text-muted);
+}
+
+
+/* =========================================================
+   GRID
+   ========================================================= */
+
+.portfolio-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  margin-top: var(--space-16);
+
+  border-top:
+    1px solid var(--border-default);
+
+  border-left:
+    1px solid var(--border-default);
+}
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.portfolio-card {
+  position: relative;
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  background:
+    var(--surface-primary);
+
+  border-right:
+    1px solid var(--border-default);
+
+  border-bottom:
+    1px solid var(--border-default);
+
+  overflow: hidden;
+}
+
+
+/* Cards with internal page */
+
+.portfolio-card__link {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  color: inherit;
+
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   VISUAL / LOGO AREA
+   ========================================================= */
+
+.portfolio-card__visual {
+  position: relative;
+
+  min-height: 240px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: var(--space-8);
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 82% 18%,
+      #FFFFFF 0%,
+      #F7F7F7 60%,
+      #EDEDED 100%
+    );
+
+  border-bottom:
+    1px solid var(--border-default);
+}
+
+
+/* subtle brand accent */
+
+.portfolio-card__visual::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 0;
+  height: 3px;
+
+  background:
+    var(--color-primary);
+
+  transition:
+    width
+    var(--motion-control)
+    var(--easing-standard);
+}
+
+
+/* =========================================================
+   TEMPORARY LOGO PLACEHOLDER
+   ========================================================= */
+
+.portfolio-card__logo-placeholder {
+  position: relative;
+  z-index: 1;
+
+  max-width: 80%;
+
+  color: var(--brand-carbon);
+
+  font-size: clamp(
+    22px,
+    2vw,
+    30px
+  );
+
+  font-weight:
+    var(--font-weight-bold);
+
+  line-height: 1.15;
+
+  text-align: center;
+
+  letter-spacing: -0.02em;
+
+  transition:
+    transform
+    var(--motion-control)
+    var(--easing-standard);
+}
+
+
+/* =========================================================
+   REAL LOGOS
+   ========================================================= */
+
+.portfolio-card__logo {
+  position: relative;
+  z-index: 1;
+
+  display: block;
+
+  width: auto;
+  height: auto;
+
+  max-width: 72%;
+  max-height: 110px;
+
+  object-fit: contain;
+
+  transition:
+    transform
+    var(--motion-control)
+    var(--easing-standard);
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.portfolio-card__content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  padding:
+    var(--space-6);
+}
+
+
+.portfolio-card__meta {
+  margin-bottom:
+    var(--space-3);
+
+  color:
+    var(--color-primary);
+
+  font-size: 12px;
+
+  font-weight:
+    var(--font-weight-bold);
+
+  line-height: 1.4;
+
+  letter-spacing: 0.04em;
+
+  text-transform: uppercase;
+}
+
+
+.portfolio-card h3 {
+  margin-bottom:
+    var(--space-3);
+
+  color:
+    var(--text-primary);
+
+  font-size: 23px;
+
+  line-height: 1.2;
+}
+
+
+.portfolio-card__description {
+  max-width: 34ch;
+
+  margin-bottom: 0;
+
+  color:
+    var(--text-muted);
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+.portfolio-card__action {
+  display: inline-flex;
+  align-items: center;
+
+  margin-top: auto;
+  padding-top: var(--space-6);
+
+  color:
+    var(--color-primary);
+
+  font-size: 14px;
+
+  font-weight:
+    var(--font-weight-bold);
+
+  line-height: 1.4;
+
+  transition:
+    transform
+    var(--motion-control)
+    var(--easing-standard);
+}
+
+
+/* =========================================================
+   CASE AVAILABLE
+   ========================================================= */
+
+.portfolio-card--case {
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   HOVER — POINTER DEVICES
+   ========================================================= */
+
+@media (hover: hover) and (pointer: fine) {
+
+  .portfolio-card--case
+  .portfolio-card__visual::before {
+    transition:
+      width
+      var(--motion-control)
+      var(--easing-standard);
+  }
+
+
+  .portfolio-card--case:hover
+  .portfolio-card__visual::before {
+    width: 100%;
+  }
+
+
+  .portfolio-card--case:hover
+  .portfolio-card__logo-placeholder,
+  .portfolio-card--case:hover
+  .portfolio-card__logo {
+    transform: scale(1.025);
+  }
+
+
+  .portfolio-card--case:hover
+  .portfolio-card__action {
+    transform: translateX(4px);
+  }
+
+}
+
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+.portfolio-card__link:focus-visible {
+  position: relative;
+  z-index: 2;
+
+  outline:
+    2px solid var(--color-primary);
+
+  outline-offset: -2px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1023px) {
+
+  .portfolio-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+
+  .portfolio-card__visual {
+    min-height: 220px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+  .portfolio__intro {
+    max-width: none;
+  }
+
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+
+    margin-top: var(--space-12);
+  }
+
+
+  .portfolio-card__visual {
+    min-height: 210px;
+
+    padding:
+      var(--space-8)
+      var(--space-6);
+  }
+
+
+  .portfolio-card__content {
+    padding:
+      var(--space-6);
+  }
+
+
+  .portfolio-card h3 {
+    font-size: 22px;
+  }
+
+
+  .portfolio-card__description {
+    max-width: none;
+  }
+
+
+  .portfolio-card__logo {
+    max-width: 68%;
+    max-height: 96px;
+  }
+
+
+  .portfolio-card__action {
+    min-height: 44px;
+
+    padding-top:
+      var(--space-4);
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+  .portfolio-card__visual {
+    min-height: 190px;
+  }
+
+
+  .portfolio-card__logo-placeholder {
+    font-size: 21px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .portfolio-card__visual::before,
+  .portfolio-card__logo-placeholder,
+  .portfolio-card__logo,
+  .portfolio-card__action {
+    transition: none;
+  }
+
+
+  .portfolio-card--case:hover
+  .portfolio-card__logo-placeholder,
+  .portfolio-card--case:hover
+  .portfolio-card__logo,
+  .portfolio-card--case:hover
+  .portfolio-card__action {
+    transform: none;
+  }
+
+}
