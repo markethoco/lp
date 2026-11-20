@@ -17,14 +17,29 @@
     const currentPath =
       window.location.pathname;
 
+    const isHome =
+      currentPath === "/" ||
+      currentPath === "/index.html";
+
     const isServices =
       currentPath === "/servicios/" ||
       currentPath.startsWith("/servicios/");
 
+    const isPortfolio =
+      currentPath === "/portafolio/" ||
+      currentPath.startsWith("/portafolio/");
+
+    const isAbout =
+      currentPath === "/nosotros/";
+
+    const isResources =
+      currentPath === "/recursos/" ||
+      currentPath.startsWith("/recursos/");
+
     const diagnosticURL =
       document.getElementById("contacto")
         ? "#contacto"
-        : "/contacto/";
+        : "/#contacto";
 
 
     mount.innerHTML = `
@@ -46,26 +61,30 @@
               src="/assets/images/marketho-logo.svg"
               alt="MarketHO"
               width="220"
+              height="35"
             >
 
           </a>
 
 
-          <!-- =================================================
-               DESKTOP NAVIGATION
-               ================================================= -->
+          <!-- DESKTOP NAVIGATION -->
 
           <nav
             class="site-nav"
             aria-label="Navegación principal"
           >
 
+            <a
+              href="/"
+              ${isHome ? 'aria-current="page"' : ""}
+            >
+              Inicio
+            </a>
+
 
             <!-- SERVICES -->
 
-            <div
-              class="site-nav-dropdown"
-            >
+            <div class="site-nav-dropdown">
 
               <a
                 class="site-nav-dropdown__toggle"
@@ -96,27 +115,23 @@
                 hidden
               >
 
-                <a
-                  href="/servicios/aceleracion-comercial/"
-                >
+                <a href="/servicios/aceleracion-comercial/">
                   Aceleración comercial
                 </a>
 
-                <a
-                  href="/servicios/crm/"
-                >
+                <a href="/servicios/crm/">
                   CRM y procesos comerciales
                 </a>
 
-                <a
-                  href="/servicios/generacion-de-oportunidades/"
-                >
+                <a href="/servicios/generacion-de-oportunidades/">
                   Generación de oportunidades
                 </a>
 
-                <a
-                  href="/servicios/medicion-integraciones/"
-                >
+                <a href="/servicios/gestion-comercial/">
+                  Gestión comercial y experiencia del cliente
+                </a>
+
+                <a href="/servicios/medicion-integraciones/">
                   Medición e integraciones
                 </a>
 
@@ -125,23 +140,24 @@
             </div>
 
 
-            <!-- PORTFOLIO -->
-
-            <a href="/portafolio/">
+            <a
+              href="/portafolio/"
+              ${isPortfolio ? 'aria-current="page"' : ""}
+            >
               Portafolio
             </a>
 
-
-            <!-- ABOUT -->
-
-            <a href="/nosotros/">
+            <a
+              href="/nosotros/"
+              ${isAbout ? 'aria-current="page"' : ""}
+            >
               Nosotros
             </a>
 
-
-            <!-- RESOURCES -->
-
-            <a href="/recursos/">
+            <a
+              href="/recursos/"
+              ${isResources ? 'aria-current="page"' : ""}
+            >
               Recursos
             </a>
 
@@ -158,9 +174,7 @@
           </a>
 
 
-          <!-- =================================================
-               MOBILE MENU BUTTON
-               ================================================= -->
+          <!-- MOBILE MENU BUTTON -->
 
           <button
             class="menu-toggle"
@@ -179,9 +193,7 @@
         </div>
 
 
-        <!-- ===================================================
-             MOBILE MENU
-             =================================================== -->
+        <!-- MOBILE MENU -->
 
         <div
           class="mobile-menu"
@@ -196,16 +208,19 @@
               aria-label="Navegación móvil"
             >
 
+              <a
+                href="/"
+                ${isHome ? 'aria-current="page"' : ""}
+              >
+                Inicio
+              </a>
+
 
               <!-- MOBILE SERVICES -->
 
-              <div
-                class="mobile-services"
-              >
+              <div class="mobile-services">
 
-                <div
-                  class="mobile-services__row"
-                >
+                <div class="mobile-services__row">
 
                   <a
                     class="mobile-services__link"
@@ -242,27 +257,23 @@
                   hidden
                 >
 
-                  <a
-                    href="/servicios/aceleracion-comercial/"
-                  >
+                  <a href="/servicios/aceleracion-comercial/">
                     Aceleración comercial
                   </a>
 
-                  <a
-                    href="/servicios/crm/"
-                  >
+                  <a href="/servicios/crm/">
                     CRM y procesos comerciales
                   </a>
 
-                  <a
-                    href="/servicios/generacion-de-oportunidades/"
-                  >
+                  <a href="/servicios/generacion-de-oportunidades/">
                     Generación de oportunidades
                   </a>
 
-                  <a
-                    href="/servicios/medicion-integraciones/"
-                  >
+                  <a href="/servicios/gestion-comercial/">
+                    Gestión comercial y experiencia del cliente
+                  </a>
+
+                  <a href="/servicios/medicion-integraciones/">
                     Medición e integraciones
                   </a>
 
@@ -271,15 +282,24 @@
               </div>
 
 
-              <a href="/portafolio/">
+              <a
+                href="/portafolio/"
+                ${isPortfolio ? 'aria-current="page"' : ""}
+              >
                 Portafolio
               </a>
 
-              <a href="/nosotros/">
+              <a
+                href="/nosotros/"
+                ${isAbout ? 'aria-current="page"' : ""}
+              >
                 Nosotros
               </a>
 
-              <a href="/recursos/">
+              <a
+                href="/recursos/"
+                ${isResources ? 'aria-current="page"' : ""}
+              >
                 Recursos
               </a>
 
@@ -392,8 +412,6 @@
     }
 
 
-    /* Mouse / trackpad */
-
     const supportsHover =
       window.matchMedia(
         "(hover: hover) and (pointer: fine)"
@@ -407,7 +425,6 @@
         openDesktopDropdown
       );
 
-
       dropdown.addEventListener(
         "mouseleave",
         scheduleDesktopClose
@@ -416,13 +433,10 @@
     }
 
 
-    /* Keyboard */
-
     dropdown.addEventListener(
       "focusin",
       openDesktopDropdown
     );
-
 
     dropdown.addEventListener(
       "focusout",
@@ -431,7 +445,7 @@
 
 
     /* =====================================================
-       MOBILE MAIN MENU
+       MOBILE MENU
        ===================================================== */
 
     const menuToggle =
@@ -443,6 +457,33 @@
       mount.querySelector(
         ".mobile-menu"
       );
+
+    const mobileServicesToggle =
+      mount.querySelector(
+        ".mobile-services-toggle"
+      );
+
+    const mobileServicesMenu =
+      mount.querySelector(
+        ".mobile-services-menu"
+      );
+
+
+    function closeMobileServices() {
+
+      mobileServicesMenu.hidden = true;
+
+      mobileServicesToggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+      mobileServicesToggle.setAttribute(
+        "aria-label",
+        "Mostrar servicios"
+      );
+
+    }
 
 
     function closeMobileMenu() {
@@ -462,6 +503,8 @@
       document.body.classList.remove(
         "menu-open"
       );
+
+      closeMobileServices();
 
     }
 
@@ -508,17 +551,6 @@
        MOBILE SERVICES ACCORDION
        ===================================================== */
 
-    const mobileServicesToggle =
-      mount.querySelector(
-        ".mobile-services-toggle"
-      );
-
-    const mobileServicesMenu =
-      mount.querySelector(
-        ".mobile-services-menu"
-      );
-
-
     mobileServicesToggle.addEventListener(
       "click",
       function () {
@@ -545,6 +577,27 @@
 
         mobileServicesMenu.hidden =
           isOpen;
+
+      }
+    );
+
+
+    /* =====================================================
+       CLOSE MOBILE MENU AFTER NAVIGATION
+       ===================================================== */
+
+    const mobileMenuLinks =
+      mobileMenu.querySelectorAll("a");
+
+    mobileMenuLinks.forEach(
+      function (link) {
+
+        link.addEventListener(
+          "click",
+          function () {
+            closeMobileMenu();
+          }
+        );
 
       }
     );
@@ -589,9 +642,7 @@
       "resize",
       function () {
 
-        if (
-          window.innerWidth >= 1024
-        ) {
+        if (window.innerWidth >= 1024) {
           closeMobileMenu();
         }
 

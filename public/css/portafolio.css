@@ -1,0 +1,41 @@
+.pf-hero, .pf-title {
+  background-color: #191919;
+  color: #fff;
+  padding-block: clamp(4rem, 8vw, 8rem);
+}
+.pf-hero {
+  background-image: linear-gradient(90deg, rgba(12,12,12,.93), rgba(12,12,12,.64) 42%, transparent 70%), url('/assets/images/portafolio/marketho-hero-portafolio.webp');
+  background-position: center;
+  background-size: cover;
+}
+.pf-hero h1, .pf-title h1 { color: inherit; max-width: 21ch; margin: 0 0 .45em; }
+.pf-hero p, .pf-title p { max-width: 48ch; font-size: 1.2rem; }
+.pf-title { background: var(--gradient-surface-dark); }
+.pf-title a { color: white; text-decoration: underline; }
+.pf-title nav { margin-bottom: 2rem; }
+.pf-title img { width: 10rem; margin-bottom: 2rem; }
+.pf-index, .pf-content { padding-block: clamp(2.5rem, 5vw, 5rem); }
+.pf-jump { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 3rem; }
+.pf-jump a { padding: .6rem 1rem; border: 1px solid var(--border-default); border-radius: 2rem; color: var(--text-primary); }
+.pf-jump a:hover, .pf-jump a:focus-visible { border-color: var(--brand-primary); color: var(--brand-primary); }
+.pf-sector { scroll-margin-top: 7rem; margin-block: 3rem; }
+.pf-sector h2 { font-size: clamp(1.6rem, 4vw, 2.5rem); }
+.pf-grid, .pf-services { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1rem; }
+.pf-card { display: block; padding: 1.4rem; background: var(--surface-secondary); color: var(--text-primary); border-top: 3px solid var(--brand-primary); }
+.pf-card:hover, .pf-card:focus-visible { background: #f0e9e9; }
+.pf-card h3 { font-size: 1.35rem; margin: .6rem 0 .45rem; }
+.pf-card p { margin: 0; }
+.pf-card small { color: #5f5656; font-size: .875rem; }
+.pf-content { max-width: 56rem; }
+.pf-content h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); }
+.pf-content h3 { font-size: 1.05rem; margin-bottom: .4rem; }
+.pf-content section { margin: 2rem 0; }
+.pf-services ul { padding-left: 1.25rem; }
+.pf-services li { list-style: disc; }
+.pf-result { border-left: .25rem solid var(--brand-primary); padding: 1.25rem 1.5rem; background: var(--surface-secondary); }
+.pf-result p { margin: 0; }
+.pf-actions { display: flex; flex-wrap: wrap; align-items:center; gap: 1.5rem; margin-top: 3rem; }
+.pf-back { color: var(--brand-primary); text-decoration: underline; }
+@media (max-width: 650px) {
+  .pf-hero { background-image: linear-gradient(90deg, rgba(12,12,12,.92), rgba(12,12,12,.62)), url('/assets/images/portafolio/marketho-hero-portafolio.webp'); }
+}
