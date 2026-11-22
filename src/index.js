@@ -184,6 +184,118 @@ async function saveLeadToSheets(env, lead) {
 
 
 /* =========================================================
+   BREVO — CONTACTOS
+   ========================================================= */
+
+async function saveLeadToBrevo(env, lead) {
+
+  if (!env.BREVO_API_KEY) {
+    throw new Error("BREVO_API_KEY no configurada");
+  }
+
+  const attributes = {
+    NOMBRE: lead.nombre_completo,
+    WHATSAPP: lead.whatsapp,
+    ORIGEN: "WEB_MARKETHO",
+    PAGINA_ORIGEN: lead.pagina_origen,
+    FECHA_REGISTRO: new Date(
+  new Date(lead.fecha).getTime() - 5 * 60 * 60 * 1000
+).toISOString().slice(0, 10)
+
+  };
+
+  const optionalFields = {
+    UTM_SOURCE: lead.utm_source,
+    UTM_MEDIUM: lead.utm_medium,
+    UTM_CAMPAIGN: lead.utm_campaign,
+    UTM_CONTENT: lead.utm_content,
+    UTM_TERM: lead.utm_term,
+    GCLID: lead.gclid,
+    FBCLID: lead.fbclid,
+    TTCLID: lead.ttclid
+  };
+
+  for (const [key, value] of Object.entries(optionalFields)) {
+    if (value) {
+      attributes[key] = value;
+    }
+  }
+
+  const response = await fetch(
+    "https://api.brevo.com/v3/contacts",
+    {
+      method: "POST",
+      headers: {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "api-key": env.BREVO_API_KEY
+      },
+      body: JSON.stringify({
+        email: lead.email,
+        attributes,
+        listIds: [4],
+        updateEnabled: true
+      })
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `Brevo rechazó el contacto. HTTP ${response.status}`
+    );
+  }
+
+  return true;
+}
+
+
+/* =========================================================
+   BREVO — EMAIL DE CONFIRMACIÓN
+   ========================================================= */
+
+async function sendConfirmationEmail(env, lead) {
+
+  if (!env.BREVO_API_KEY) {
+    throw new Error("BREVO_API_KEY no configurada");
+  }
+
+  const response = await fetch(
+    "https://api.brevo.com/v3/smtp/email",
+    {
+      method: "POST",
+      headers: {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "api-key": env.BREVO_API_KEY
+      },
+      body: JSON.stringify({
+        templateId: 1,
+        to: [
+          {
+            email: lead.email,
+            name: lead.nombre_completo
+          }
+        ],
+        replyTo: {
+          email: "info@marketho.co",
+          name: "MarketHO"
+        },
+        tags: ["confirmacion_solicitud"]
+      })
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `Brevo no pudo enviar el correo. HTTP ${response.status}`
+    );
+  }
+
+  return true;
+}
+
+
+/* =========================================================
    CONTACT FORM
    ========================================================= */
 
@@ -498,6 +610,46 @@ async function handleContact(request, env) {
       env,
       lead
     );
+
+
+/* =====================================================
+   BREVO — CONTACTO Y CONFIRMACIÓN
+   ===================================================== */
+
+try {
+
+  await saveLeadToBrevo(env, lead);
+
+  console.log(
+    "Brevo: contacto registrado correctamente"
+  );
+
+  try {
+
+    await sendConfirmationEmail(env, lead);
+
+    console.log(
+      "Brevo: confirmación enviada correctamente"
+    );
+
+  } catch (emailError) {
+
+    console.error(
+      "Brevo: error enviando confirmación:",
+      emailError.message
+    );
+
+  }
+
+} catch (brevoError) {
+
+  console.error(
+    "Brevo: error registrando contacto:",
+    brevoError.message
+  );
+
+}
+
 
 
     /* =====================================================
