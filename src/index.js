@@ -1,3 +1,4 @@
+
 /* =========================================================
    MarketHO — Cloudflare Worker
    ========================================================= */
@@ -55,7 +56,6 @@ async function verifyTurnstile(token, secret, ip = "") {
     body.set("remoteip", ip);
   }
 
-
   const response = await fetch(
     "https://challenges.cloudflare.com/turnstile/v0/siteverify",
     {
@@ -67,7 +67,6 @@ async function verifyTurnstile(token, secret, ip = "") {
     }
   );
 
-
   let result = {};
 
   try {
@@ -76,12 +75,9 @@ async function verifyTurnstile(token, secret, ip = "") {
     result = {};
   }
 
-
   /*
-   * Información segura para diagnóstico.
-   * NO imprime:
-   * - Secret Key
-   * - Token de Turnstile
+   * Información de diagnóstico.
+   * No imprime claves ni tokens.
    */
   console.log(
     "Turnstile Siteverify:",
@@ -93,7 +89,6 @@ async function verifyTurnstile(token, secret, ip = "") {
       errors: result["error-codes"] || []
     }
   );
-
 
   return {
     ...result,
@@ -116,23 +111,19 @@ async function saveLeadToSheets(env, lead) {
     );
   }
 
-
   if (!env.INGEST_SECRET) {
     throw new Error(
       "INGEST_SECRET no está configurado"
     );
   }
 
-
   const response = await fetch(
     env.SHEETS_WEBAPP_URL,
     {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json"
       },
-
       body: JSON.stringify({
         secret: env.INGEST_SECRET,
         lead
@@ -140,9 +131,7 @@ async function saveLeadToSheets(env, lead) {
     }
   );
 
-
   let result = null;
-
 
   try {
     result = await response.json();
@@ -151,7 +140,6 @@ async function saveLeadToSheets(env, lead) {
       `Google Sheets devolvió una respuesta no válida. HTTP ${response.status}`
     );
   }
-
 
   console.log(
     "Google Sheets:",
@@ -162,13 +150,11 @@ async function saveLeadToSheets(env, lead) {
     }
   );
 
-
   if (!response.ok) {
     throw new Error(
       `Google Sheets respondió HTTP ${response.status}`
     );
   }
-
 
   if (!result?.ok) {
     throw new Error(
@@ -177,7 +163,6 @@ async function saveLeadToSheets(env, lead) {
       }`
     );
   }
-
 
   return result;
 }
@@ -190,7 +175,9 @@ async function saveLeadToSheets(env, lead) {
 async function saveLeadToBrevo(env, lead) {
 
   if (!env.BREVO_API_KEY) {
-    throw new Error("BREVO_API_KEY no configurada");
+    throw new Error(
+      "BREVO_API_KEY no configurada"
+    );
   }
 
   const attributes = {
@@ -199,9 +186,9 @@ async function saveLeadToBrevo(env, lead) {
     ORIGEN: "WEB_MARKETHO",
     PAGINA_ORIGEN: lead.pagina_origen,
     FECHA_REGISTRO: new Date(
-  new Date(lead.fecha).getTime() - 5 * 60 * 60 * 1000
-).toISOString().slice(0, 10)
-
+      new Date(lead.fecha).getTime() -
+      5 * 60 * 60 * 1000
+    ).toISOString().slice(0, 10)
   };
 
   const optionalFields = {
@@ -239,10 +226,43 @@ async function saveLeadToBrevo(env, lead) {
     }
   );
 
+  /*
+   * Diagnóstico de errores de Brevo.
+   * Se intenta ocultar correo y teléfono
+   * en los mensajes devueltos por la API.
+   */
   if (!response.ok) {
+
+    const detalle = await response.json().catch(
+      () => ({})
+    );
+
+    const mensajeSeguro = String(
+      detalle.message || "Sin detalle"
+    )
+      .replace(
+        /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi,
+        "[correo]"
+      )
+      .replace(
+        /\+?\d[\d\s().()-]{7,}\d/g,
+        "[telefono]"
+      )
+      .slice(0, 250);
+
+    console.error(
+      "Brevo: respuesta de error",
+      {
+        status: response.status,
+        code: detalle.code || "sin_codigo",
+        message: mensajeSeguro
+      }
+    );
+
     throw new Error(
       `Brevo rechazó el contacto. HTTP ${response.status}`
     );
+
   }
 
   return true;
@@ -256,7 +276,9 @@ async function saveLeadToBrevo(env, lead) {
 async function sendConfirmationEmail(env, lead) {
 
   if (!env.BREVO_API_KEY) {
-    throw new Error("BREVO_API_KEY no configurada");
+    throw new Error(
+      "BREVO_API_KEY no configurada"
+    );
   }
 
   const response = await fetch(
@@ -280,7 +302,9 @@ async function sendConfirmationEmail(env, lead) {
           email: "info@marketho.co",
           name: "MarketHO"
         },
-        tags: ["confirmacion_solicitud"]
+        tags: [
+          "confirmacion_solicitud"
+        ]
       })
     }
   );
@@ -303,44 +327,32 @@ async function handleContact(request, env) {
 
   try {
 
-    const formData =
-      await request.formData();
+    const formData = await request.formData();
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        FORM FIELDS
-       ----------------------------------------------------- */
+       ===================================================== */
 
-    const nombreCompleto =
-      clean(
-        formData.get("nombre_completo")
-      );
+    const nombreCompleto = clean(
+      formData.get("nombre_completo")
+    );
 
+    const whatsapp = clean(
+      formData.get("whatsapp")
+    );
 
-    const whatsapp =
-      clean(
-        formData.get("whatsapp")
-      );
+    const email = clean(
+      formData.get("email")
+    );
 
+    const consentimiento = clean(
+      formData.get("consentimiento")
+    );
 
-    const email =
-      clean(
-        formData.get("email")
-      );
-
-
-    const consentimiento =
-      clean(
-        formData.get("consentimiento")
-      );
-
-
-    const turnstileToken =
-      clean(
-        formData.get(
-          "cf-turnstile-response"
-        )
-      );
+    const turnstileToken = clean(
+      formData.get("cf-turnstile-response")
+    );
 
 
     /* =====================================================
@@ -348,52 +360,39 @@ async function handleContact(request, env) {
        ===================================================== */
 
     if (!nombreCompleto) {
-
       return jsonResponse(
         {
           ok: false,
           field: "nombre_completo",
-          message:
-            "Ingresa tu nombre completo."
+          message: "Ingresa tu nombre completo."
         },
         400
       );
-
     }
 
-
     if (!isValidWhatsApp(whatsapp)) {
-
       return jsonResponse(
         {
           ok: false,
           field: "whatsapp",
-          message:
-            "Ingresa un número de WhatsApp válido."
+          message: "Ingresa un número de WhatsApp válido."
         },
         400
       );
-
     }
 
-
     if (!isValidEmail(email)) {
-
       return jsonResponse(
         {
           ok: false,
           field: "email",
-          message:
-            "Ingresa un correo electrónico válido."
+          message: "Ingresa un correo electrónico válido."
         },
         400
       );
-
     }
 
-
     if (consentimiento !== "si") {
-
       return jsonResponse(
         {
           ok: false,
@@ -403,16 +402,13 @@ async function handleContact(request, env) {
         },
         400
       );
-
     }
-
 
     if (!turnstileToken) {
 
       console.error(
         "Turnstile: no llegó cf-turnstile-response"
       );
-
 
       return jsonResponse(
         {
@@ -422,7 +418,6 @@ async function handleContact(request, env) {
         },
         400
       );
-
     }
 
 
@@ -430,16 +425,13 @@ async function handleContact(request, env) {
        REQUEST CONTEXT
        ===================================================== */
 
-    const ip =
-      request.headers.get(
-        "CF-Connecting-IP"
-      ) || "";
+    const ip = request.headers.get(
+      "CF-Connecting-IP"
+    ) || "";
 
-
-    const userAgent =
-      request.headers.get(
-        "User-Agent"
-      ) || "";
+    const userAgent = request.headers.get(
+      "User-Agent"
+    ) || "";
 
 
     /* =====================================================
@@ -452,7 +444,6 @@ async function handleContact(request, env) {
         "TURNSTILE_SECRET_KEY no está configurada"
       );
 
-
       return jsonResponse(
         {
           ok: false,
@@ -461,17 +452,13 @@ async function handleContact(request, env) {
         },
         500
       );
-
     }
 
-
-    const turnstileResult =
-      await verifyTurnstile(
-        turnstileToken,
-        env.TURNSTILE_SECRET_KEY,
-        ip
-      );
-
+    const turnstileResult = await verifyTurnstile(
+      turnstileToken,
+      env.TURNSTILE_SECRET_KEY,
+      ip
+    );
 
     if (!turnstileResult.success) {
 
@@ -480,15 +467,11 @@ async function handleContact(request, env) {
           ok: false,
           message:
             "No pudimos validar el envío. Intenta nuevamente.",
-
           turnstile_errors:
-            turnstileResult[
-              "error-codes"
-            ] || []
+            turnstileResult["error-codes"] || []
         },
         403
       );
-
     }
 
 
@@ -513,79 +496,57 @@ async function handleContact(request, env) {
 
       pagina_origen:
         clean(
-          formData.get(
-            "pagina_origen"
-          )
+          formData.get("pagina_origen")
         ),
 
       page_path:
         clean(
-          formData.get(
-            "page_path"
-          )
+          formData.get("page_path")
         ),
 
       utm_source:
         clean(
-          formData.get(
-            "utm_source"
-          )
+          formData.get("utm_source")
         ),
 
       utm_medium:
         clean(
-          formData.get(
-            "utm_medium"
-          )
+          formData.get("utm_medium")
         ),
 
       utm_campaign:
         clean(
-          formData.get(
-            "utm_campaign"
-          )
+          formData.get("utm_campaign")
         ),
 
       utm_content:
         clean(
-          formData.get(
-            "utm_content"
-          )
+          formData.get("utm_content")
         ),
 
       utm_term:
         clean(
-          formData.get(
-            "utm_term"
-          )
+          formData.get("utm_term")
         ),
 
       gclid:
         clean(
-          formData.get(
-            "gclid"
-          )
+          formData.get("gclid")
         ),
 
       fbclid:
         clean(
-          formData.get(
-            "fbclid"
-          )
+          formData.get("fbclid")
         ),
 
       ttclid:
         clean(
-          formData.get(
-            "ttclid"
-          )
+          formData.get("ttclid")
         ),
 
       referrer:
         clean(
-          formData.get(
-            "referrer"
-          )
+          formData.get("referrer")
         ),
 
       ip,
@@ -606,50 +567,69 @@ async function handleContact(request, env) {
        GOOGLE SHEETS
        ===================================================== */
 
-    await saveLeadToSheets(
+    const sheetsResult = await saveLeadToSheets(
       env,
       lead
     );
 
+    /*
+     * Apps Script genera la referencia comercial.
+     * No se genera otro consecutivo en el Worker.
+     */
+    if (!sheetsResult.referencia_comercial) {
 
-/* =====================================================
-   BREVO — CONTACTO Y CONFIRMACIÓN
-   ===================================================== */
+      throw new Error(
+        "Google Sheets no devolvió la referencia comercial."
+      );
 
-try {
+    }
 
-  await saveLeadToBrevo(env, lead);
-
-  console.log(
-    "Brevo: contacto registrado correctamente"
-  );
-
-  try {
-
-    await sendConfirmationEmail(env, lead);
+    lead.referencia_comercial =
+      sheetsResult.referencia_comercial;
 
     console.log(
-      "Brevo: confirmación enviada correctamente"
+      "Referencia comercial:",
+      lead.referencia_comercial
     );
 
-  } catch (emailError) {
 
-    console.error(
-      "Brevo: error enviando confirmación:",
-      emailError.message
-    );
+    /* =====================================================
+       BREVO — CONTACTO Y CONFIRMACIÓN
+       ===================================================== */
 
-  }
+    try {
 
-} catch (brevoError) {
+      await saveLeadToBrevo(env, lead);
 
-  console.error(
-    "Brevo: error registrando contacto:",
-    brevoError.message
-  );
+      console.log(
+        "Brevo: contacto registrado correctamente"
+      );
 
-}
+      try {
 
+        await sendConfirmationEmail(env, lead);
+
+        console.log(
+          "Brevo: confirmación enviada correctamente"
+        );
+
+      } catch (emailError) {
+
+        console.error(
+          "Brevo: error enviando confirmación:",
+          emailError.message
+        );
+
+      }
+
+    } catch (brevoError) {
+
+      console.error(
+        "Brevo: error registrando contacto:",
+        brevoError.message
+      );
+
+    }
 
 
     /* =====================================================
@@ -659,19 +639,17 @@ try {
     return jsonResponse({
       ok: true,
       lead_id: lead.lead_id,
+      referencia_comercial:
+        lead.referencia_comercial,
       redirect: "/gracias/"
     });
 
-  }
-
-
-  catch (error) {
+  } catch (error) {
 
     console.error(
       "Error procesando lead:",
       error
     );
-
 
     return jsonResponse(
       {
@@ -683,7 +661,6 @@ try {
     );
 
   }
-
 }
 
 
@@ -695,54 +672,41 @@ export default {
 
   async fetch(request, env) {
 
-    const url =
-      new URL(request.url);
+    const url = new URL(request.url);
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        HEALTH CHECK
-       ----------------------------------------------------- */
+       ===================================================== */
 
-    if (
-      url.pathname ===
-      "/api/health"
-    ) {
+    if (url.pathname === "/api/health") {
 
       return jsonResponse({
         ok: true,
         service: "marketho",
-        message:
-          "API de MarketHO funcionando"
+        message: "API de MarketHO funcionando"
       });
 
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        CONTACT FORM
-       ----------------------------------------------------- */
+       ===================================================== */
 
-    if (
-      url.pathname ===
-      "/api/contact"
-    ) {
+    if (url.pathname === "/api/contact") {
 
-      if (
-        request.method !==
-        "POST"
-      ) {
+      if (request.method !== "POST") {
 
         return jsonResponse(
           {
             ok: false,
-            message:
-              "Método no permitido"
+            message: "Método no permitido"
           },
           405
         );
 
       }
-
 
       return handleContact(
         request,
@@ -752,15 +716,14 @@ export default {
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        UNKNOWN API ROUTE
-       ----------------------------------------------------- */
+       ===================================================== */
 
     return jsonResponse(
       {
         ok: false,
-        message:
-          "Ruta API no encontrada"
+        message: "Ruta API no encontrada"
       },
       404
     );
