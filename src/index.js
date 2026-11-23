@@ -1,52 +1,93 @@
 
 /* =========================================================
    MarketHO — Cloudflare Worker
+   Formularios, Turnstile, Google Sheets y Brevo
    ========================================================= */
 
-
 /* =========================================================
-   HELPERS
+   UTILIDADES
    ========================================================= */
 
 function jsonResponse(data, status = 200) {
-  return new Response(
-    JSON.stringify(data),
-    {
-      status,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "Cache-Control": "no-store"
-      }
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store"
     }
-  );
+  });
 }
-
 
 function clean(value) {
-  return typeof value === "string"
-    ? value.trim()
-    : "";
+  return typeof value === "string" ? value.trim() : "";
 }
-
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-
 function isValidWhatsApp(whatsapp) {
   const digits = whatsapp.replace(/\D/g, "");
-
   return digits.length >= 7 && digits.length <= 15;
 }
 
+/*
+ * Convierte teléfonos reconocibles al formato
+ * internacional que necesita Brevo.
+ *
+ * Si falta el código de país y no es un móvil
+ * colombiano, no inventa un indicativo.
+ */
+function normalizeWhatsAppForBrevo(raw) {
+  const original = clean(raw);
+  const digits = original.replace(/\D/g, "");
+
+  // Colombia: 3001234567 -> +573001234567
+  if (/^3\d{9}$/.test(digits)) {
+    return "+57" + digits;
+  }
+
+  // Colombia: 573001234567 -> +573001234567
+  if (/^573\d{9}$/.test(digits)) {
+    return "+" + digits;
+  }
+
+  // Otros países: requieren prefijo + explícito.
+  if (
+    original.startsWith("+") &&
+    /^[1-9]\d{7,14}$/.test(digits)
+  ) {
+    return "+" + digits;
+  }
+
+  return null;
+}
+
+/*
+ * El detalle de Brevo podría contener datos
+ * enviados por el usuario.
+ *
+ * Ocultamos correos y teléfonos antes
+ * de escribirlo en los registros.
+ */
+function safeBrevoMessage(message) {
+  return String(message || "Sin detalle")
+    .replace(
+      /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi,
+      "[correo]"
+    )
+    .replace(
+      /\+?\d[\d\s().()-]{7,}\d/g,
+      "[telefono]"
+    )
+    .slice(0, 250);
+}
 
 /* =========================================================
    TURNSTILE
    ========================================================= */
 
 async function verifyTurnstile(token, secret, ip = "") {
-
   const body = new URLSearchParams();
 
   body.set("secret", secret);
@@ -75,36 +116,25 @@ async function verifyTurnstile(token, secret, ip = "") {
     result = {};
   }
 
-  /*
-   * Información de diagnóstico.
-   * No imprime claves ni tokens.
-   */
-  console.log(
-    "Turnstile Siteverify:",
-    {
-      httpStatus: response.status,
-      success: result.success ?? false,
-      hostname: result.hostname || null,
-      action: result.action || null,
-      errors: result["error-codes"] || []
-    }
-  );
+  console.log("Turnstile Siteverify:", {
+    httpStatus: response.status,
+    success: result.success ?? false,
+    hostname: result.hostname || null,
+    action: result.action || null,
+    errors: result["error-codes"] || []
+  });
 
   return {
     ...result,
-    success:
-      response.ok &&
-      result.success === true
+    success: response.ok && result.success === true
   };
 }
-
 
 /* =========================================================
    GOOGLE SHEETS
    ========================================================= */
 
 async function saveLeadToSheets(env, lead) {
-
   if (!env.SHEETS_WEBAPP_URL) {
     throw new Error(
       "SHEETS_WEBAPP_URL no está configurada"
@@ -141,14 +171,11 @@ async function saveLeadToSheets(env, lead) {
     );
   }
 
-  console.log(
-    "Google Sheets:",
-    {
-      httpStatus: response.status,
-      ok: result?.ok ?? false,
-      error: result?.error || null
-    }
-  );
+  console.log("Google Sheets:", {
+    httpStatus: response.status,
+    ok: result?.ok ?? false,
+    error: result?.error || null
+  });
 
   if (!response.ok) {
     throw new Error(
@@ -167,114 +194,186 @@ async function saveLeadToSheets(env, lead) {
   return result;
 }
 
-
 /* =========================================================
    BREVO — CONTACTOS
    ========================================================= */
 
 async function saveLeadToBrevo(env, lead) {
-
   if (!env.BREVO_API_KEY) {
     throw new Error(
       "BREVO_API_KEY no configurada"
     );
   }
 
+  /*
+   * Normalizar el WhatsApp antes de enviarlo.
+   */
+  const whatsappBrevo =
+    normalizeWhatsAppForBrevo(lead.whatsapp);
+
+  /*
+   * Atributos principales.
+   *
+   * Los identificadores LEAD_ID y
+   * REFERENCIA_COMERCIAL ya fueron creados
+   * como atributos de texto en Brevo.
+   */
   const attributes = {
     NOMBRE: lead.nombre_completo,
-    WHATSAPP: lead.whatsapp,
+
+    LEAD_ID: lead.lead_id,
+
+    REFERENCIA_COMERCIAL:
+      lead.referencia_comercial,
+
     ORIGEN: "WEB_MARKETHO",
-    PAGINA_ORIGEN: lead.pagina_origen,
+
+    PAGINA_ORIGEN:
+      lead.pagina_origen,
+
     FECHA_REGISTRO: new Date(
       new Date(lead.fecha).getTime() -
       5 * 60 * 60 * 1000
     ).toISOString().slice(0, 10)
   };
 
+  /*
+   * Solamente incluir WHATSAPP cuando
+   * tenga un formato internacional reconocido.
+   */
+  if (whatsappBrevo) {
+    attributes.WHATSAPP = whatsappBrevo;
+  } else {
+    console.warn(
+      "Brevo: teléfono sin indicativo reconocido; " +
+      "se registrará el correo sin WHATSAPP."
+    );
+  }
+
+  /*
+   * Atributos de atribución publicitaria.
+   */
   const optionalFields = {
     UTM_SOURCE: lead.utm_source,
     UTM_MEDIUM: lead.utm_medium,
     UTM_CAMPAIGN: lead.utm_campaign,
     UTM_CONTENT: lead.utm_content,
     UTM_TERM: lead.utm_term,
+
     GCLID: lead.gclid,
     FBCLID: lead.fbclid,
     TTCLID: lead.ttclid
   };
 
-  for (const [key, value] of Object.entries(optionalFields)) {
+  for (
+    const [key, value]
+    of Object.entries(optionalFields)
+  ) {
     if (value) {
       attributes[key] = value;
     }
   }
 
-  const response = await fetch(
-    "https://api.brevo.com/v3/contacts",
-    {
-      method: "POST",
-      headers: {
-        "accept": "application/json",
-        "content-type": "application/json",
-        "api-key": env.BREVO_API_KEY
-      },
-      body: JSON.stringify({
-        email: lead.email,
-        attributes,
-        listIds: [4],
-        updateEnabled: true
-      })
-    }
-  );
+  /*
+   * Enviar contacto a Brevo.
+   *
+   * Lista 4:
+   * 01 - Leads web MarketHO
+   *
+   * updateEnabled evita errores cuando
+   * el correo ya existe en Brevo.
+   */
+  async function createOrUpdateContact() {
+    return fetch(
+      "https://api.brevo.com/v3/contacts",
+      {
+        method: "POST",
+        headers: {
+          "accept": "application/json",
+          "content-type": "application/json",
+          "api-key": env.BREVO_API_KEY
+        },
+        body: JSON.stringify({
+          email: lead.email,
+          attributes,
+          listIds: [4],
+          updateEnabled: true
+        })
+      }
+    );
+  }
+
+  let response = await createOrUpdateContact();
 
   /*
-   * Diagnóstico de errores de Brevo.
-   * Se intenta ocultar correo y teléfono
-   * en los mensajes devueltos por la API.
+   * Si Brevo rechaza específicamente
+   * el número de WhatsApp, se intenta
+   * registrar el contacto una segunda vez,
+   * sin el atributo WHATSAPP.
+   *
+   * El número original permanece en Sheets.
    */
   if (!response.ok) {
-
-    const detalle = await response.json().catch(
+    let detail = await response.json().catch(
       () => ({})
     );
 
-    const mensajeSeguro = String(
-      detalle.message || "Sin detalle"
-    )
-      .replace(
-        /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi,
-        "[correo]"
-      )
-      .replace(
-        /\+?\d[\d\s().()-]{7,}\d/g,
-        "[telefono]"
-      )
-      .slice(0, 250);
+    const whatsappRejected =
+      response.status === 400 &&
+      Boolean(attributes.WHATSAPP) &&
+      /invalid whatsapp number/i.test(
+        String(detail.message || "")
+      );
 
-    console.error(
-      "Brevo: respuesta de error",
-      {
-        status: response.status,
-        code: detalle.code || "sin_codigo",
-        message: mensajeSeguro
+    if (whatsappRejected) {
+      console.warn(
+        "Brevo: WhatsApp rechazado; " +
+        "reintento de registro sin ese atributo."
+      );
+
+      delete attributes.WHATSAPP;
+
+      response = await createOrUpdateContact();
+
+      if (!response.ok) {
+        detail = await response.json().catch(
+          () => ({})
+        );
       }
-    );
+    }
 
-    throw new Error(
-      `Brevo rechazó el contacto. HTTP ${response.status}`
-    );
+    /*
+     * Registrar únicamente información
+     * de diagnóstico si el error persiste.
+     */
+    if (!response.ok) {
+      console.error(
+        "Brevo: respuesta de error",
+        {
+          status: response.status,
 
+          code:
+            detail.code || "sin_codigo",
+
+          message:
+            safeBrevoMessage(detail.message)
+        }
+      );
+
+      throw new Error(
+        `Brevo rechazó el contacto. HTTP ${response.status}`
+      );
+    }
   }
 
   return true;
 }
-
 
 /* =========================================================
    BREVO — EMAIL DE CONFIRMACIÓN
    ========================================================= */
 
 async function sendConfirmationEmail(env, lead) {
-
   if (!env.BREVO_API_KEY) {
     throw new Error(
       "BREVO_API_KEY no configurada"
@@ -292,16 +391,19 @@ async function sendConfirmationEmail(env, lead) {
       },
       body: JSON.stringify({
         templateId: 1,
+
         to: [
           {
             email: lead.email,
             name: lead.nombre_completo
           }
         ],
+
         replyTo: {
           email: "info@marketho.co",
           name: "MarketHO"
         },
+
         tags: [
           "confirmacion_solicitud"
         ]
@@ -318,17 +420,14 @@ async function sendConfirmationEmail(env, lead) {
   return true;
 }
 
-
 /* =========================================================
-   CONTACT FORM
+   FORMULARIO DE CONTACTO
    ========================================================= */
 
 async function handleContact(request, env) {
-
   try {
-
-    const formData = await request.formData();
-
+    const formData =
+      await request.formData();
 
     /* =====================================================
        FORM FIELDS
@@ -354,7 +453,6 @@ async function handleContact(request, env) {
       formData.get("cf-turnstile-response")
     );
 
-
     /* =====================================================
        FIELD VALIDATION
        ===================================================== */
@@ -364,7 +462,8 @@ async function handleContact(request, env) {
         {
           ok: false,
           field: "nombre_completo",
-          message: "Ingresa tu nombre completo."
+          message:
+            "Ingresa tu nombre completo."
         },
         400
       );
@@ -375,7 +474,8 @@ async function handleContact(request, env) {
         {
           ok: false,
           field: "whatsapp",
-          message: "Ingresa un número de WhatsApp válido."
+          message:
+            "Ingresa un número de WhatsApp válido."
         },
         400
       );
@@ -386,7 +486,8 @@ async function handleContact(request, env) {
         {
           ok: false,
           field: "email",
-          message: "Ingresa un correo electrónico válido."
+          message:
+            "Ingresa un correo electrónico válido."
         },
         400
       );
@@ -405,7 +506,6 @@ async function handleContact(request, env) {
     }
 
     if (!turnstileToken) {
-
       console.error(
         "Turnstile: no llegó cf-turnstile-response"
       );
@@ -420,26 +520,25 @@ async function handleContact(request, env) {
       );
     }
 
-
     /* =====================================================
        REQUEST CONTEXT
        ===================================================== */
 
-    const ip = request.headers.get(
-      "CF-Connecting-IP"
-    ) || "";
+    const ip =
+      request.headers.get(
+        "CF-Connecting-IP"
+      ) || "";
 
-    const userAgent = request.headers.get(
-      "User-Agent"
-    ) || "";
-
+    const userAgent =
+      request.headers.get(
+        "User-Agent"
+      ) || "";
 
     /* =====================================================
        TURNSTILE VALIDATION
        ===================================================== */
 
     if (!env.TURNSTILE_SECRET_KEY) {
-
       console.error(
         "TURNSTILE_SECRET_KEY no está configurada"
       );
@@ -454,19 +553,20 @@ async function handleContact(request, env) {
       );
     }
 
-    const turnstileResult = await verifyTurnstile(
-      turnstileToken,
-      env.TURNSTILE_SECRET_KEY,
-      ip
-    );
+    const turnstileResult =
+      await verifyTurnstile(
+        turnstileToken,
+        env.TURNSTILE_SECRET_KEY,
+        ip
+      );
 
     if (!turnstileResult.success) {
-
       return jsonResponse(
         {
           ok: false,
           message:
             "No pudimos validar el envío. Intenta nuevamente.",
+
           turnstile_errors:
             turnstileResult["error-codes"] || []
         },
@@ -474,13 +574,11 @@ async function handleContact(request, env) {
       );
     }
 
-
     /* =====================================================
        LEAD
        ===================================================== */
 
     const lead = {
-
       lead_id:
         crypto.randomUUID(),
 
@@ -559,29 +657,26 @@ async function handleContact(request, env) {
 
       estado:
         "Nuevo"
-
     };
-
 
     /* =====================================================
        GOOGLE SHEETS
        ===================================================== */
 
-    const sheetsResult = await saveLeadToSheets(
-      env,
-      lead
-    );
-
     /*
-     * Apps Script genera la referencia comercial.
-     * No se genera otro consecutivo en el Worker.
+     * Apps Script asigna una referencia comercial
+     * única y devuelve el resultado al Worker.
      */
-    if (!sheetsResult.referencia_comercial) {
+    const sheetsResult =
+      await saveLeadToSheets(
+        env,
+        lead
+      );
 
+    if (!sheetsResult.referencia_comercial) {
       throw new Error(
         "Google Sheets no devolvió la referencia comercial."
       );
-
     }
 
     lead.referencia_comercial =
@@ -592,13 +687,15 @@ async function handleContact(request, env) {
       lead.referencia_comercial
     );
 
-
     /* =====================================================
        BREVO — CONTACTO Y CONFIRMACIÓN
        ===================================================== */
 
+    /*
+     * Si Brevo falla, el registro ya realizado
+     * en Google Sheets permanece disponible.
+     */
     try {
-
       await saveLeadToBrevo(env, lead);
 
       console.log(
@@ -606,7 +703,6 @@ async function handleContact(request, env) {
       );
 
       try {
-
         await sendConfirmationEmail(env, lead);
 
         console.log(
@@ -614,23 +710,18 @@ async function handleContact(request, env) {
         );
 
       } catch (emailError) {
-
         console.error(
           "Brevo: error enviando confirmación:",
           emailError.message
         );
-
       }
 
     } catch (brevoError) {
-
       console.error(
         "Brevo: error registrando contacto:",
         brevoError.message
       );
-
     }
-
 
     /* =====================================================
        SUCCESS
@@ -638,14 +729,18 @@ async function handleContact(request, env) {
 
     return jsonResponse({
       ok: true,
-      lead_id: lead.lead_id,
+
+      lead_id:
+        lead.lead_id,
+
       referencia_comercial:
         lead.referencia_comercial,
-      redirect: "/gracias/"
+
+      redirect:
+        "/gracias/"
     });
 
   } catch (error) {
-
     console.error(
       "Error procesando lead:",
       error
@@ -659,45 +754,36 @@ async function handleContact(request, env) {
       },
       500
     );
-
   }
 }
-
 
 /* =========================================================
    WORKER
    ========================================================= */
 
 export default {
-
   async fetch(request, env) {
-
     const url = new URL(request.url);
-
 
     /* =====================================================
        HEALTH CHECK
        ===================================================== */
 
     if (url.pathname === "/api/health") {
-
       return jsonResponse({
         ok: true,
         service: "marketho",
-        message: "API de MarketHO funcionando"
+        message:
+          "API de MarketHO funcionando"
       });
-
     }
-
 
     /* =====================================================
        CONTACT FORM
        ===================================================== */
 
     if (url.pathname === "/api/contact") {
-
       if (request.method !== "POST") {
-
         return jsonResponse(
           {
             ok: false,
@@ -705,16 +791,13 @@ export default {
           },
           405
         );
-
       }
 
       return handleContact(
         request,
         env
       );
-
     }
-
 
     /* =====================================================
        UNKNOWN API ROUTE
@@ -723,11 +806,10 @@ export default {
     return jsonResponse(
       {
         ok: false,
-        message: "Ruta API no encontrada"
+        message:
+          "Ruta API no encontrada"
       },
       404
     );
-
   }
-
 };
