@@ -19,6 +19,14 @@
 
 El distintivo reutilizable debe aplicarse exclusivamente a proyectos ya clasificados como casos de éxito. Usa el texto “Caso de éxito”, estrella de cinco puntas, Inter Semibold y `#D4AF37` sobre fondos oscuros o `#856117` sobre fondos claros. No se reclasifican proyectos sin evidencia.
 
+## Paleta visual aprobada 7.2
+
+- Blanco `#FFFFFF`: superficie predominante e intermedia.
+- Gris `#D9D9D9`: diferenciaciÃ³n de secciones generales.
+- CarbÃ³n `#262626`: contenido estratÃ©gico.
+- Rojo corporativo `#A11917`: principalmente llamados a la acciÃ³n.
+- Los textos mantienen contraste WCAG AA; las secciones usan fondos de ancho completo y espaciado vertical moderado.
+
 ## Footer
 
 `public/js/site-footer.js` es la fuente compartida para páginas nuevas y admite variantes `corporate`, `landing` y `minimal`. Las páginas aprobadas conservan su HTML hasta que una verificación visual confirme una migración segura.

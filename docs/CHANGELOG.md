@@ -2,6 +2,8 @@
 
 ## 2026-11-26
 
+La correcciÃ³n visual 7.2 consolida la paleta definitiva (`#FFFFFF`, `#D9D9D9`, `#262626`, `#A11917`) y reduce el espaciado vertical de las variantes globales. La landing de publicidad digital permanece intacta.
+
 ### Corrección visual 7.2
 
 - Se añadieron variantes reutilizables de superficie blanca, gris y carbón en tokens y componentes corporativos.
