@@ -16,6 +16,13 @@ La carpeta `MarketHO_revision_local` es únicamente una fuente de consulta.
 
 ## Arquitectura actual
 
+## EstÃ¡ndares UX/UI y CRO aprobados
+
+- Paleta: blanco `#FFFFFF`, gris `#D9D9D9`, carbÃ³n `#262626`, rojo `#A11917` y dorado `#D4AF37` para casos de Ã©xito.
+- Home: operaciÃ³n blanca, servicios gris, proyectos blancos, metodologÃ­a carbÃ³n y contacto blanco; las demÃ¡s pÃ¡ginas corporativas siguen el mismo criterio funcional.
+- Secciones con fondos de ancho completo, padding vertical de 56â€“64 px en PC y 32â€“40 px en mÃ³vil; no agregar contenido ni alturas mÃ­nimas innecesarias.
+- CTA contextuales y eventos locales mediante `measurement.js`, respetando consentimiento y sin PII.
+
 - `public/` contiene el sitio estático y sus páginas.
 - `public/css/` contiene estilos globales y de componentes.
 - `public/js/forms.js` mantiene el motor del formulario corporativo existente.

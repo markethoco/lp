@@ -29,7 +29,7 @@
   }
 
   function mountAll() {
-    if (document.body && !document.querySelector("footer")) {
+    if (document.body && !document.querySelector("footer") && !document.querySelector("[data-site-footer]")) {
       const mount = document.createElement("div");
       mount.dataset.siteFooter = "true";
       mount.dataset.footerVariant = "corporate";
