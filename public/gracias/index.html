@@ -1,82 +1,37 @@
+
 <!doctype html>
 <html lang="es">
-
 <head>
   <meta charset="utf-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
-
-  <meta
-    name="robots"
-    content="noindex, follow"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, follow">
   <title>Gracias | MarketHO</title>
-
   <meta
     name="description"
     content="Recibimos correctamente tu solicitud de contacto."
   >
 
-  <link
-    rel="stylesheet"
-    href="/css/tokens.css"
-  >
-
-  <link
-    rel="stylesheet"
-    href="/css/base.css"
-  >
-
-  <link
-    rel="stylesheet"
-    href="/css/layout.css"
-  >
-
-  <link
-    rel="stylesheet"
-    href="/css/components.css"
-  >
-
-  <link
-    rel="stylesheet"
-    href="/css/utilities.css"
-  >
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/utilities.css">
 </head>
-
-
 <body>
-
   <header class="site-header">
-
     <div class="container site-header__inner">
-
-      <a
-        class="site-logo"
-        href="/"
-        aria-label="MarketHO - Inicio"
-      >
-
+      <a class="site-logo" href="/" aria-label="MarketHO - Inicio">
         <img
           src="/assets/images/marketho-logo.svg"
           alt="MarketHO"
           width="220"
         >
-
       </a>
-
     </div>
-
   </header>
 
-
   <main>
-
     <section class="thank-you hero surface-hero-dark">
-
       <img
         class="hero__static-image"
         src="/assets/images/heroes/marketho-hero-gracias.webp"
@@ -89,40 +44,97 @@
       >
 
       <div class="container">
-
         <div class="thank-you__content">
-
-          <p class="section-eyebrow">
-            Solicitud recibida
-          </p>
-
-
-          <h1>
-            Gracias.
-          </h1>
-
-
+          <p class="section-eyebrow">Solicitud recibida</p>
+          <h1>Gracias.</h1>
           <p class="text-large">
             Recibimos tu información correctamente.
             Pronto nos pondremos en contacto contigo.
           </p>
 
+          <p class="text-large" id="referencia-visible" hidden></p>
 
-          <a
-            class="btn btn--primary"
-            href="/"
-          >
-            Volver a MarketHO
-          </a>
-
+          <div class="hero__actions">
+            <button
+              type="button"
+              class="btn btn--primary"
+              id="whatsapp-continuar"
+            >
+              Continuar por WhatsApp
+            </button>
+            <a class="btn btn--inverse" href="/">
+              Volver a MarketHO
+            </a>
+          </div>
         </div>
-
       </div>
-
     </section>
-
   </main>
 
-</body>
+  <script>
+    (() => {
+      "use strict";
 
+      const button = document.getElementById("whatsapp-continuar");
+      const referenceText = document.getElementById("referencia-visible");
+      const storageKey = "marketho_confirmacion";
+      const whatsappMarketHO = "573002553005";
+      const maxAge = 15 * 60 * 1000;
+
+      let contacto = null;
+
+      try {
+        const stored = sessionStorage.getItem(storageKey);
+        sessionStorage.removeItem(storageKey);
+        sessionStorage.removeItem("marketho_contacto_confirmado");
+        sessionStorage.removeItem("marketho_referencia_comercial");
+
+        if (stored) {
+          const data = JSON.parse(stored);
+          const nombre = typeof data.nombre === "string"
+            ? data.nombre.trim().slice(0, 120)
+            : "";
+          const referencia = typeof data.referencia === "string"
+            ? data.referencia.trim()
+            : "";
+          const edad = Date.now() - Number(data.guardadoEn);
+
+          if (
+            nombre &&
+            /^HO-\d{2}-\d{2}-\d{4}-\d{4}$/.test(referencia) &&
+            Number.isFinite(edad) &&
+            edad >= 0 &&
+            edad <= maxAge
+          ) {
+            contacto = { nombre, referencia };
+            referenceText.textContent =
+              "Referencia de tu solicitud: " + referencia;
+            referenceText.hidden = false;
+          }
+        }
+      } catch (error) {
+        console.warn("No fue posible recuperar la referencia comercial.");
+      }
+
+      button.addEventListener("click", () => {
+        const mensaje = contacto
+          ? [
+              `Hola, soy ${contacto.nombre}.`,
+              "",
+              "Acabo de enviar una solicitud desde la página web de MarketHO y me gustaría continuar la conversación.",
+              "",
+              `Mi referencia es ${contacto.referencia}.`
+            ].join("\n")
+          : "Hola, me gustaría conversar con MarketHO sobre sus servicios.";
+
+        const url =
+          `https://wa.me/${whatsappMarketHO}?text=` +
+          encodeURIComponent(mensaje);
+
+        // La información solo se envía a WhatsApp si se pulsa el botón.
+        window.location.assign(url);
+      });
+    })();
+  </script>
+</body>
 </html>

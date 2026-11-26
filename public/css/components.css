@@ -1551,7 +1551,7 @@ a:hover {
 
 
 /* =========================================================
-   THANK YOU
+   THANK YOU — página de confirmación
    ========================================================= */
 
 .thank-you {
@@ -1560,23 +1560,51 @@ a:hover {
   display: flex;
   align-items: center;
 
-  background: var(--gradient-surface-light);
+  color: var(--text-inverse);
+  background: var(--gradient-hero-dark);
+}
+
+/* Mantiene el texto delante de la imagen y de su superposición. */
+.thank-you > .container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* Garantiza contraste incluso donde comienza la imagen. */
+.thank-you::after {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.98) 0%,
+    rgba(0, 0, 0, 0.94) 30%,
+    rgba(0, 0, 0, 0.84) 44%,
+    rgba(0, 0, 0, 0.35) 65%,
+    rgba(0, 0, 0, 0.02) 85%
+  );
 }
 
 .thank-you__content {
-  max-width: 720px;
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 540px;
 
   padding-block: var(--space-24);
 }
 
+.thank-you .section-eyebrow {
+  color: rgba(255, 255, 255, 0.78);
+}
+
 .thank-you__content h1 {
   margin-bottom: var(--space-6);
+  color: var(--brand-white);
 }
 
 .thank-you__content .text-large {
   margin-bottom: var(--space-8);
-
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 
@@ -2672,14 +2700,34 @@ a:hover {
   }
 
 
-  /* THANK YOU */
+  /* THANK YOU — MOBILE */
 
   .thank-you {
-    min-height: calc(100vh - 72px);
+    min-height: calc(100svh - 72px);
+    align-items: flex-start;
+
+    background: linear-gradient(
+      160deg,
+      #241010 0%,
+      #141414 45%,
+      #000000 100%
+    );
   }
 
   .thank-you__content {
-    padding-block: var(--space-16);
+    max-width: 100%;
+    padding-top: 64px;
+    padding-bottom: 80px;
+  }
+
+  .thank-you__content h1 {
+    font-size: 44px;
+    line-height: 1.1;
+  }
+
+  .thank-you__content .text-large {
+    font-size: 16px;
+    line-height: 1.6;
   }
 
 

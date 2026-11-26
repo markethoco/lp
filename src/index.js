@@ -1,3 +1,8 @@
+import {
+  PUBLICIDAD_PATH,
+  SERVICIOS_PUBLICIDAD,
+  normalizePublicidadPhone
+} from "./lead-schema.js";
 
 /* =========================================================
    MarketHO — Cloudflare Worker
@@ -424,7 +429,7 @@ async function sendConfirmationEmail(env, lead) {
    FORMULARIO DE CONTACTO
    ========================================================= */
 
-async function handleContact(request, env) {
+async function handleContact(request, env, isPublicidad = false) {
   try {
     const formData =
       await request.formData();
@@ -437,9 +442,21 @@ async function handleContact(request, env) {
       formData.get("nombre_completo")
     );
 
-    const whatsapp = clean(
+    let whatsapp = clean(
       formData.get("whatsapp")
     );
+
+    const empresa = isPublicidad
+      ? clean(formData.get("empresa"))
+      : "";
+
+    const servicioInteres = isPublicidad
+      ? clean(formData.get("servicio_interes"))
+      : "";
+
+    const paisTelefono = isPublicidad
+      ? clean(formData.get("pais_telefono"))
+      : "";
 
     const email = clean(
       formData.get("email")
@@ -467,6 +484,59 @@ async function handleContact(request, env) {
         },
         400
       );
+    }
+
+    if (isPublicidad) {
+      if (!empresa || empresa.length > 200) {
+        return jsonResponse(
+          {
+            ok: false,
+            field: "empresa",
+            message: "Ingresa el nombre de tu empresa (máximo 200 caracteres)."
+          },
+          400
+        );
+      }
+
+      if (!SERVICIOS_PUBLICIDAD.has(servicioInteres)) {
+        return jsonResponse(
+          {
+            ok: false,
+            field: "servicio_interes",
+            message: "Selecciona un servicio o la opción Otro / Necesito orientación."
+          },
+          400
+        );
+      }
+
+      if (paisTelefono !== "+57" && paisTelefono !== "+1") {
+        return jsonResponse(
+          {
+            ok: false,
+            field: "pais_telefono",
+            message: "Selecciona Colombia o Estados Unidos."
+          },
+          400
+        );
+      }
+
+      const normalizedPhone = normalizePublicidadPhone(
+        whatsapp,
+        paisTelefono
+      );
+
+      if (!normalizedPhone) {
+        return jsonResponse(
+          {
+            ok: false,
+            field: "whatsapp",
+            message: "Ingresa un número válido para el país seleccionado."
+          },
+          400
+        );
+      }
+
+      whatsapp = normalizedPhone;
     }
 
     if (!isValidWhatsApp(whatsapp)) {
@@ -552,6 +622,10 @@ async function handleContact(request, env) {
         500
       );
     }
+    console.log("Diagnostico Turnstile:", {
+  clavePrueba: env.TURNSTILE_SECRET_KEY === "1x0000000000000000000000000000000AA",
+  tokenPrueba: turnstileToken === "XXXX.DUMMY.TOKEN.XXXX"
+});
 
     const turnstileResult =
       await verifyTurnstile(
@@ -589,6 +663,12 @@ async function handleContact(request, env) {
         nombreCompleto,
 
       whatsapp,
+
+      ...(isPublicidad ? {
+        empresa,
+        servicio_interes: servicioInteres,
+        pais_telefono: paisTelefono
+      } : {}),
 
       email,
 
@@ -782,7 +862,10 @@ export default {
        CONTACT FORM
        ===================================================== */
 
-    if (url.pathname === "/api/contact") {
+    if (
+      url.pathname === "/api/contact" ||
+      url.pathname === PUBLICIDAD_PATH
+    ) {
       if (request.method !== "POST") {
         return jsonResponse(
           {
@@ -795,7 +878,8 @@ export default {
 
       return handleContact(
         request,
-        env
+        env,
+        url.pathname === PUBLICIDAD_PATH
       );
     }
 

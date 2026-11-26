@@ -1,0 +1,41 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# OpenAI Search / ChatGPT Search
+User-agent: OAI-SearchBot
+Allow: /
+
+# OpenAI Ads crawler
+User-agent: OAI-AdsBot
+Allow: /
+
+# OpenAI model-training crawler
+User-agent: GPTBot
+Disallow: /
+
+# Anthropic model-training crawler
+User-agent: ClaudeBot
+Disallow: /
+
+# Google / Gemini
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Bing / Microsoft
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://marketho.co/sitemap.xml

@@ -1,0 +1,12 @@
+/* CRM: los estados se mantienen íntegros en una sola línea. */
+.services .service:nth-child(3) .visual{min-width:max-content;}
+.services .service:nth-child(3) .mini{white-space:nowrap;}
+.services .service:nth-child(3) .mini i{flex-shrink:0;}
+@media(max-width:767px){
+  .services .service:nth-child(3) .visual{padding-inline:6px;}
+  .services .service:nth-child(3) .mini{gap:5px;}
+}
+@media(max-width:350px){
+  .services .service:nth-child(3) .servicehead{gap:6px;}
+  .services .service:nth-child(3) .servicehead svg{width:26px;height:26px;}
+}

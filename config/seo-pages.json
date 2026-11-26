@@ -1,0 +1,20 @@
+{
+  "origin": "https://marketho.co",
+  "defaults": {
+    "robots": "index, follow",
+    "ogType": "website",
+    "schemaType": "WebPage"
+  },
+  "excludedFromSitemap": [
+    "/gracias/",
+    "/privacidad/",
+    "/publicidad-digital/",
+    "/publicidad-digital/privacidad/"
+  ],
+  "pages": {
+    "/publicidad-digital/": {
+      "robots": "noindex, nofollow",
+      "status": "approved-preview"
+    }
+  }
+}
