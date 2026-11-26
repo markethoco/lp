@@ -2,6 +2,13 @@
 
 ## 2026-11-26
 
+### Corrección visual 7.2
+
+- Se añadieron variantes reutilizables de superficie blanca, gris y carbón en tokens y componentes corporativos.
+- Home, Nosotros, Recursos, Privacidad y las páginas individuales de Servicios ahora asignan superficies por función, con fondos de ancho completo, separadores y espaciado responsive.
+- Portafolio conserva su alternancia aprobada y recibe bordes/separadores centralizados.
+- La landing de publicidad digital no fue modificada.
+
 ### Implementado
 
 - Creada la rama local `integracion-final-marketho`.

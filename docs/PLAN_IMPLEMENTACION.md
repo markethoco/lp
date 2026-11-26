@@ -27,6 +27,7 @@
 - `tests/site-audit.mjs`: OK, 36 HTML y 33 corporativas.
 - Navegador local: Home, landing, mobile sin desbordamiento y redirección de Servicios revisados.
 - Wrangler local: activo en `http://127.0.0.1:8788`.
+- Corrección visual 7.2: superficies semánticas verificadas en Home y páginas corporativas.
 
 ## Bloqueos y pendientes externos
 

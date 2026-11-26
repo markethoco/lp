@@ -31,6 +31,12 @@
   --surface-primary: #FFFFFF;
   --surface-secondary: #F5F5F5;
 
+  --section-surface-white: #FFFFFF;
+  --section-surface-muted: #F2F2F2;
+  --section-surface-carbon: #262626;
+  --section-border-muted: #DCDCDC;
+  --section-border-dark: rgba(255, 255, 255, 0.18);
+
   --border-default: #E5E5E5;
 
   --status-success: #176B3A;

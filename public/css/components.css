@@ -782,6 +782,63 @@ a:hover {
   background-image: var(--gradient-accent-red);
 }
 
+/* =========================================================
+   SECTION SURFACES
+   Variants semánticas inspiradas en la landing de publicidad.
+   ========================================================= */
+
+section.section--surface-white,
+section.section--surface-muted,
+section.section--surface-carbon {
+  width: 100%;
+  border-top: 1px solid var(--section-border-muted);
+  border-bottom: 1px solid var(--section-border-muted);
+  padding-block: clamp(52px, 6vw, 80px);
+}
+
+section.section--surface-white {
+  color: var(--text-primary);
+  background: var(--section-surface-white);
+}
+
+section.section--surface-muted {
+  color: var(--text-primary);
+  background: var(--section-surface-muted);
+}
+
+section.section--surface-carbon {
+  color: var(--text-inverse);
+  background: var(--section-surface-carbon);
+  border-color: var(--section-border-dark);
+}
+
+.section--surface-carbon h2,
+.section--surface-carbon h3,
+.section--surface-carbon .text-large,
+.section--surface-carbon .solution__principle p {
+  color: var(--text-inverse);
+}
+
+.section--surface-carbon p,
+.section--surface-carbon .solution__item p,
+.section--surface-carbon .solution__description > p:last-child {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.section--surface-carbon .section-eyebrow,
+.section--surface-carbon .solution__number {
+  color: #FF7772;
+}
+
+.section--surface-carbon .solution__system,
+.section--surface-carbon .solution__item {
+  border-color: var(--section-border-dark);
+}
+
+.section--surface-carbon .btn--tertiary {
+  color: #FFAAA6;
+}
+
 
 /* =========================================================
    GENERIC CARDS
@@ -2082,6 +2139,12 @@ a:hover {
 
 .portfolio {
   background: var(--surface-primary);
+  border-top: 1px solid var(--section-border-muted);
+  border-bottom: 1px solid var(--section-border-muted);
+}
+
+.portfolio.surface-light {
+  background: var(--section-surface-muted);
 }
 
 .portfolio__intro {
