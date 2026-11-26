@@ -22,3 +22,9 @@
 - Integraciones reales de Google Sheets y Brevo.
 - Publicación y configuración externa de Cloudflare.
 - Capturas y comprobaciones finales de navegador, responsive, consola, accesibilidad y recursos.
+
+### Verificado en entorno local
+
+- Sintaxis JavaScript, sitemap, auditoría estática, Worker, payload simulado y redirecciones.
+- Home y landing en escritorio/móvil, footer centralizado, casos de éxito y ausencia de desbordamiento horizontal.
+- Wrangler local activo en `http://127.0.0.1:8788`; no se publicó ni se ejecutó `git push`.
