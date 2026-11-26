@@ -88,7 +88,7 @@
 
               <a
                 class="site-nav-dropdown__toggle"
-                href="/servicios/"
+                href="/#servicios"
                 aria-haspopup="true"
                 aria-expanded="false"
                 aria-controls="services-dropdown"
@@ -224,7 +224,7 @@
 
                   <a
                     class="mobile-services__link"
-                    href="/servicios/"
+                    href="/#servicios"
                     ${isServices ? 'aria-current="page"' : ""}
                   >
                     Servicios

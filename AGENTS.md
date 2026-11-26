@@ -31,3 +31,11 @@ La carpeta `MarketHO_revision_local` es únicamente una fuente de consulta.
 ## Nuevas páginas
 
 Una nueva landing debe reutilizar el contrato de lead, la atribución, Turnstile, la página de gracias, los eventos y los componentes visuales disponibles. Los campos específicos deben declararse en configuración y validarse en el Worker sin alterar los formularios existentes.
+
+## Consolidación final 2026-11-26
+
+- La rama de trabajo autorizada es `integracion-final-marketho`.
+- El punto de recuperación `respaldo-consolidacion-2026-11-26` y `bk.zip` deben conservarse intactos.
+- `/servicios` y `/servicios/` redirigen permanentemente a `/#servicios`; las cinco páginas individuales de servicios se conservan.
+- La referencia local `origin/main` contiene el commit de GTM `3a09b7d`; sus archivos accidentales `h origin main` y `tatus` no se incorporan.
+- Las integraciones externas se verifican mediante simulaciones locales; no se envían datos reales ni se publica sin autorización.

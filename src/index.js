@@ -846,6 +846,14 @@ export default {
     const url = new URL(request.url);
 
     /* =====================================================
+       SERVICIOS — RESUMEN REDIRIGIDO AL ANCLAJE CORPORATIVO
+       ===================================================== */
+
+    if (url.pathname === "/servicios" || url.pathname === "/servicios/") {
+      return Response.redirect(`${url.origin}/#servicios`, 301);
+    }
+
+    /* =====================================================
        HEALTH CHECK
        ===================================================== */
 
@@ -884,16 +892,9 @@ export default {
     }
 
     /* =====================================================
-       UNKNOWN API ROUTE
+       STATIC ASSETS
        ===================================================== */
 
-    return jsonResponse(
-      {
-        ok: false,
-        message:
-          "Ruta API no encontrada"
-      },
-      404
-    );
+    return env.ASSETS.fetch(request);
   }
 };
