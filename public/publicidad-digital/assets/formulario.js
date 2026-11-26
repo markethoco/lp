@@ -2,6 +2,14 @@
 (() => {
   "use strict";
 
+  if (!document.querySelector('script[data-market-measurement="true"]')) {
+    const measurement = document.createElement("script");
+    measurement.src = "/js/measurement.js";
+    measurement.defer = true;
+    measurement.dataset.marketMeasurement = "true";
+    document.head.appendChild(measurement);
+  }
+
   const form = document.querySelector("form.form");
   if (!form) return;
 

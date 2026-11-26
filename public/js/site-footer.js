@@ -4,7 +4,7 @@
     corporate: {
       label: "MarketHO",
       links: [
-        ["Servicios", "/servicios/"],
+        ["Servicios", "/#servicios"],
         ["Portafolio", "/portafolio/"],
         ["Privacidad", "/privacidad/"]
       ]
@@ -28,7 +28,19 @@
       '</div></footer>';
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
+  function mountAll() {
+    if (document.body && !document.querySelector("footer")) {
+      const mount = document.createElement("div");
+      mount.dataset.siteFooter = "true";
+      mount.dataset.footerVariant = "corporate";
+      document.body.appendChild(mount);
+    }
     document.querySelectorAll("[data-site-footer]").forEach(render);
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", mountAll);
+  } else {
+    mountAll();
+  }
 })();

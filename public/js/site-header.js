@@ -4,7 +4,27 @@
 
 (function () {
 
+  function loadMeasurement() {
+    if (!document.querySelector('script[data-market-measurement="true"]')) {
+      const script = document.createElement("script");
+      script.src = "/js/measurement.js";
+      script.defer = true;
+      script.dataset.marketMeasurement = "true";
+      document.head.appendChild(script);
+    }
+
+    if (!document.querySelector('script[data-market-footer="true"]')) {
+      const footer = document.createElement("script");
+      footer.src = "/js/site-footer.js";
+      footer.defer = true;
+      footer.dataset.marketFooter = "true";
+      document.head.appendChild(footer);
+    }
+  }
+
   function initSiteHeader() {
+
+    loadMeasurement();
 
     const mount =
       document.getElementById("site-header");
