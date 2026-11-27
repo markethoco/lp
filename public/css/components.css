@@ -891,10 +891,10 @@ section.section--surface-carbon {
 
   align-items: center;
 
-  gap: var(--space-8);
+  gap: clamp(20px, 3vw, 32px);
 
-  margin-top: var(--space-16);
-  padding: var(--space-8);
+  margin-top: var(--space-12);
+  padding: clamp(24px, 3vw, 32px);
 
   overflow: hidden;
 
@@ -921,6 +921,8 @@ section.section--surface-carbon {
 }
 
 .section-cta-box__content {
+  min-width: 0;
+
   max-width: 660px;
 }
 
@@ -958,10 +960,12 @@ section.section--surface-carbon {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  align-self: center;
 }
 
 .section-cta-box__action .btn {
-  min-width: 240px;
+  min-width: 220px;
 }
 
 
@@ -2560,7 +2564,7 @@ section.section--surface-carbon {
   .section-cta-box {
     grid-template-columns: 1fr;
 
-    gap: var(--space-6);
+    gap: var(--space-4);
   }
 
   .section-cta-box__action {
@@ -2795,7 +2799,7 @@ section.section--surface-carbon {
 
     padding: var(--space-6);
 
-    gap: var(--space-6);
+    gap: var(--space-4);
   }
 
   .section-cta-box h3 {
@@ -2804,6 +2808,8 @@ section.section--surface-carbon {
 
   .section-cta-box__action {
     width: 100%;
+
+    margin-top: 0;
   }
 
   .section-cta-box__action .btn {
