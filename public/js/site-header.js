@@ -22,9 +22,30 @@
     }
   }
 
+  function ensureFavicon() {
+    const icons = [
+      ["icon", "image/svg+xml", "/assets/images/marketho-favicon.svg"],
+      ["icon", "image/x-icon", "/favicon.ico"],
+      ["apple-touch-icon", "image/png", "/apple-touch-icon.png"]
+    ];
+
+    icons.forEach(([rel, type, href]) => {
+      if (document.head.querySelector(`link[rel="${rel}"][href="${href}"]`)) {
+        return;
+      }
+
+      const link = document.createElement("link");
+      link.rel = rel;
+      link.type = type;
+      link.href = href;
+      document.head.appendChild(link);
+    });
+  }
+
   function initSiteHeader() {
 
     loadMeasurement();
+    ensureFavicon();
 
     const mount =
       document.getElementById("site-header");
