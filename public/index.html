@@ -62,26 +62,96 @@
     "@graph": [
       {
         "@type": "Organization",
-    "inLanguage": "es-CO",
         "@id": "https://marketho.co/#organization",
         "name": "MarketHO",
-        "address": { "@type": "PostalAddress", "addressCountry": "CO" },
+        "legalName": "MarketHO",
+        "slogan": "Aceleración comercial",
+        "foundingDate": "2023",
         "url": "https://marketho.co/",
+        "inLanguage": "es-CO",
+        "email": "info@marketho.co",
+        "telephone": "+573002553005",
+        "sameAs": [
+          "https://web.facebook.com/marketho.co",
+          "https://www.instagram.com/marketho.co/"
+        ],
+        "areaServed": [
+          { "@type": "Country", "name": "Colombia", "identifier": "CO" },
+          { "@type": "Country", "name": "United States", "identifier": "US" }
+        ],
         "description": "MarketHO conecta marketing, tecnología y gestión comercial para ayudar a las empresas a captar, organizar, convertir y gestionar oportunidades comerciales.",
+        "founder": [
+          { "@id": "https://marketho.co/#alejandro-hurtado" },
+          { "@id": "https://marketho.co/#monica-orozco" }
+        ],
+        "knowsAbout": [
+          "Aceleración comercial", "Marketing digital", "Google Ads", "Meta Ads", "TikTok Ads",
+          "CRM", "Automatización comercial", "Generación de oportunidades", "Gestión comercial",
+          "Experiencia del cliente", "Desarrollo web", "Comercio electrónico", "UX/UI", "SEO",
+          "CRO", "Analítica digital", "Integraciones tecnológicas"
+        ],
+        "contactPoint": { "@id": "https://marketho.co/#contact-point" },
         "logo": {
           "@type": "ImageObject",
+          "@id": "https://marketho.co/#logo",
           "url": "https://marketho.co/assets/images/marketho-logo.svg"
         }
       },
       {
+        "@type": "Person",
+        "@id": "https://marketho.co/#alejandro-hurtado",
+        "name": "Alejandro Hurtado"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://marketho.co/#monica-orozco",
+        "name": "Monica Orozco"
+      },
+      {
+        "@type": "ContactPoint",
+        "@id": "https://marketho.co/#contact-point",
+        "contactType": "sales",
+        "telephone": "+573002553005",
+        "email": "info@marketho.co",
+        "availableLanguage": "es-CO",
+        "areaServed": ["CO", "US"],
+        "description": "Atención comercial solo con cita previa."
+      },
+      {
         "@type": "WebSite",
-    "inLanguage": "es-CO",
         "@id": "https://marketho.co/#website",
         "url": "https://marketho.co/",
         "name": "MarketHO",
-        "publisher": {
-          "@id": "https://marketho.co/#organization"
-        }
+        "inLanguage": "es-CO",
+        "publisher": { "@id": "https://marketho.co/#organization" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://marketho.co/#webpage",
+        "url": "https://marketho.co/",
+        "name": "MarketHO | Marketing, CRM y gestión comercial conectados",
+        "inLanguage": "es-CO",
+        "isPartOf": { "@id": "https://marketho.co/#website" },
+        "about": { "@id": "https://marketho.co/#organization" },
+        "audience": { "@id": "https://marketho.co/#business-audience" }
+      },
+      {
+        "@type": "BusinessAudience",
+        "@id": "https://marketho.co/#business-audience",
+        "audienceType": "Empresas",
+        "geographicArea": ["CO", "US"]
+      },
+      {
+        "@type": "OfferCatalog",
+        "@id": "https://marketho.co/#service-catalog",
+        "name": "Servicios de MarketHO",
+        "itemListElement": [
+          { "@id": "https://marketho.co/servicios/aceleracion-comercial/#service" },
+          { "@id": "https://marketho.co/servicios/crm/#service" },
+          { "@id": "https://marketho.co/servicios/generacion-de-oportunidades/#service" },
+          { "@id": "https://marketho.co/servicios/gestion-comercial/#service" },
+          { "@id": "https://marketho.co/servicios/medicion-integraciones/#service" }
+        ]
       }
     ]
   }

@@ -33,3 +33,11 @@ Fecha de consolidación: 26 de noviembre de 2026.
 
 - La integración externa real con Google Sheets y Brevo queda pendiente de una prueba autorizada.
 - La publicación, Cloudflare y la revisión externa de Subscribe de Meta no se consideran realizadas.
+
+## Enriquecimiento semántico aprobado
+
+- `config/seo-pages.json` es la fuente única de identidad empresarial, especialidades y catálogo de servicios Schema.org.
+- MarketHO se representa mediante `Organization` y los cofundadores mediante entidades `Person`; `foundingDate` conserva únicamente el año `2023`.
+- El catálogo contiene los cinco servicios corporativos existentes. La landing de publicidad digital se representa como `Service` específico vinculado a MarketHO.
+- Se conservan los identificadores permanentes `https://marketho.co/#organization` y `https://marketho.co/#website` y las referencias entre entidades mediante `@id`.
+- No se agregan ciudad, dirección física, horarios fijos, NIT, precios, certificaciones ni resultados no confirmados.

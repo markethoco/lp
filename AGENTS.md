@@ -53,3 +53,12 @@ Una nueva landing debe reutilizar el contrato de lead, la atribución, Turnstile
 - El locale SEO compartido es `es_CO`; los datos Schema.org usan `inLanguage: "es-CO"` y `addressCountry: "CO"` cuando corresponda.
 - La zona horaria explícita del proyecto es `America/Bogota`.
 - MarketHO conserva alcance comercial internacional y no aplica redirecciones, bloqueos ni variantes regionales inexistentes.
+
+## Estándar semántico y SEO global
+
+- La fuente compartida de identidad empresarial y catálogo Schema.org es `config/seo-pages.json`.
+- La entidad principal es `Organization` con el identificador permanente `https://marketho.co/#organization`; el sitio usa `https://marketho.co/#website`.
+- La identidad confirmada conserva MarketHO, eslogan Aceleración comercial, fundación 2023, cofundadores, teléfono, correo, redes sociales y mercados Colombia/Estados Unidos.
+- No se declaran ciudad, dirección física, horarios fijos, NIT ni resultados no confirmados.
+- El Home declara `Organization`, `WebSite`, `WebPage`, `BusinessAudience`, `ContactPoint` y `OfferCatalog`; las páginas de servicio declaran `Service` y `BreadcrumbList` según su contenido visible.
+- Las páginas usan `inLanguage: "es-CO"`, referencias `@id` compartidas y JSON-LD válido directamente en el HTML.

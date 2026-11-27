@@ -12,6 +12,49 @@
       "addressCountry": "CO"
     }
   },
+  "business": {
+    "@id": "https://marketho.co/#organization",
+    "name": "MarketHO",
+    "legalName": "MarketHO",
+    "slogan": "Aceleración comercial",
+    "foundingDate": "2023",
+    "url": "https://marketho.co/",
+    "inLanguage": "es-CO",
+    "email": "info@marketho.co",
+    "telephone": "+573002553005",
+    "sameAs": [
+      "https://web.facebook.com/marketho.co",
+      "https://www.instagram.com/marketho.co/"
+    ],
+    "areaServed": ["CO", "US"],
+    "founders": [
+      { "@id": "https://marketho.co/#alejandro-hurtado", "name": "Alejandro Hurtado" },
+      { "@id": "https://marketho.co/#monica-orozco", "name": "Monica Orozco" }
+    ],
+    "knowsAbout": [
+      "Aceleración comercial", "Marketing digital", "Google Ads", "Meta Ads", "TikTok Ads",
+      "CRM", "Automatización comercial", "Generación de oportunidades", "Gestión comercial",
+      "Experiencia del cliente", "Desarrollo web", "Comercio electrónico", "UX/UI", "SEO",
+      "CRO", "Analítica digital", "Integraciones tecnológicas"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "@id": "https://marketho.co/#contact-point",
+      "contactType": "sales",
+      "telephone": "+573002553005",
+      "email": "info@marketho.co",
+      "availableLanguage": "es-CO",
+      "areaServed": ["CO", "US"],
+      "description": "Atención comercial solo con cita previa."
+    }
+  },
+  "services": [
+    { "@id": "https://marketho.co/servicios/aceleracion-comercial/#service", "name": "Aceleración comercial", "serviceType": "Aceleración comercial", "url": "https://marketho.co/servicios/aceleracion-comercial/" },
+    { "@id": "https://marketho.co/servicios/crm/#service", "name": "CRM y procesos comerciales", "serviceType": "CRM y procesos comerciales", "url": "https://marketho.co/servicios/crm/" },
+    { "@id": "https://marketho.co/servicios/generacion-de-oportunidades/#service", "name": "Generación de oportunidades", "serviceType": "Generación de oportunidades", "url": "https://marketho.co/servicios/generacion-de-oportunidades/" },
+    { "@id": "https://marketho.co/servicios/gestion-comercial/#service", "name": "Gestión comercial y experiencia del cliente", "serviceType": "Gestión comercial y experiencia del cliente", "url": "https://marketho.co/servicios/gestion-comercial/" },
+    { "@id": "https://marketho.co/servicios/medicion-integraciones/#service", "name": "Medición e integraciones", "serviceType": "Medición e integraciones", "url": "https://marketho.co/servicios/medicion-integraciones/" }
+  ],
   "excludedFromSitemap": [
     "/gracias/",
     "/privacidad/",
