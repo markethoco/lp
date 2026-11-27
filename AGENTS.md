@@ -46,3 +46,10 @@ Una nueva landing debe reutilizar el contrato de lead, la atribución, Turnstile
 - `/servicios` y `/servicios/` redirigen permanentemente a `/#servicios`; las cinco páginas individuales de servicios se conservan.
 - La referencia local `origin/main` contiene el commit de GTM `3a09b7d`; sus archivos accidentales `h origin main` y `tatus` no se incorporan.
 - Las integraciones externas se verifican mediante simulaciones locales; no se envían datos reales ni se publica sin autorización.
+
+## Estándar global de idioma y codificación
+
+- Todos los documentos web se guardan en UTF-8 y declaran `lang="es-CO"` y `charset="UTF-8"`.
+- El locale SEO compartido es `es_CO`; los datos Schema.org usan `inLanguage: "es-CO"` y `addressCountry: "CO"` cuando corresponda.
+- La zona horaria explícita del proyecto es `America/Bogota`.
+- MarketHO conserva alcance comercial internacional y no aplica redirecciones, bloqueos ni variantes regionales inexistentes.

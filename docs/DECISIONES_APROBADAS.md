@@ -13,6 +13,12 @@ Fecha de consolidación: 26 de noviembre de 2026.
 - El footer configurable se reutiliza en páginas nuevas y las páginas aprobadas se migran únicamente después de una verificación visual.
 - GTM, GA4 y Meta Pixel se recuperan de forma selectiva desde la referencia local, sin duplicar configuraciones ni activar TikTok/CAPI.
 
+## Estándar global de idioma y codificación
+
+- El sitio usa UTF-8, `lang="es-CO"`, `charset="UTF-8"` y `og:locale="es_CO"`.
+- Las entidades Schema.org correspondientes declaran `inLanguage: "es-CO"` y `addressCountry: "CO"`.
+- La zona horaria explícita es `America/Bogota`, sin limitar el alcance internacional de MarketHO.
+
 ## EstÃ¡ndares UX/UI y CRO aprobados
 
 - Paleta definitiva: blanco `#FFFFFF`, gris `#D9D9D9`, carbÃ³n `#262626`, rojo `#A11917` para CTA y dorado `#D4AF37` para casos de Ã©xito.

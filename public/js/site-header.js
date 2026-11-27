@@ -42,10 +42,22 @@
     });
   }
 
+  function ensureLocaleMetadata() {
+    document.documentElement.lang = "es-CO";
+
+    if (!document.head.querySelector('meta[property="og:locale"]')) {
+      const locale = document.createElement("meta");
+      locale.setAttribute("property", "og:locale");
+      locale.content = "es_CO";
+      document.head.appendChild(locale);
+    }
+  }
+
   function initSiteHeader() {
 
     loadMeasurement();
     ensureFavicon();
+    ensureLocaleMetadata();
 
     const mount =
       document.getElementById("site-header");

@@ -3,7 +3,14 @@
   "defaults": {
     "robots": "index, follow",
     "ogType": "website",
-    "schemaType": "WebPage"
+    "schemaType": "WebPage",
+    "language": "es-CO",
+    "ogLocale": "es_CO",
+    "timezone": "America/Bogota",
+    "schemaDefaults": {
+      "inLanguage": "es-CO",
+      "addressCountry": "CO"
+    }
   },
   "excludedFromSitemap": [
     "/gracias/",
