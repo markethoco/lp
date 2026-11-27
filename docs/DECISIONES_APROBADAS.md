@@ -2,6 +2,17 @@
 
 Fecha de consolidación: 26 de noviembre de 2026.
 
+## Medición y privacidad — 2026-11-27
+
+- La barra compacta de cookies se muestra horizontalmente al pie, se minimiza tras 15 segundos sin interacción y nunca interpreta la minimización como autorización.
+- La barra no bloquea la navegación ni cubre formularios, CTA o WhatsApp; la landing de publicidad digital reutiliza la misma infraestructura.
+- La medición opcional permanece denegada por defecto y se gestiona desde el footer y la página de privacidad.
+- measurement.js conserva los identificadores aprobados de GTM, GA4 y Meta Pixel, y aplica Consent Mode v2 antes de cargar proveedores.
+- Las etiquetas publicitarias y analíticas solo se cargan después de una autorización voluntaria; la autorización puede revocarse.
+- Los formularios, Turnstile, Google Sheets, Brevo y WhatsApp no dependen del consentimiento de medición.
+- Los eventos no transmiten nombres, correos, teléfonos ni contenido de formularios a plataformas de medición.
+- La política de privacidad documenta Ley 1581 de 2012, Decreto 1074 de 2015, proveedores, transferencias internacionales, derechos y datos legales pendientes de confirmación.
+
 ## Decisiones vigentes
 
 - La carpeta activa es `D:\2026\MarkettHO\marketho-lp`.

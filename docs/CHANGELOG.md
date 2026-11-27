@@ -1,5 +1,11 @@
 # Changelog de consolidación
 
+## 2026-11-27
+
+- Se implementó la barra compacta global de cookies con estados expandido y minimizado, auto-minimización después de 15 segundos, enlace de privacidad y controles accesibles.
+- `measurement.js` conserva Consent Mode v2, activa GTM/GA4/Meta Pixel inmediatamente después de aceptar y aplica revocación persistente sin recargar.
+- La barra reposiciona WhatsApp y los CTA flotantes para evitar solapamientos, y también se carga en la landing de publicidad digital.
+
 ## 2026-11-26
 
 La correcciÃ³n visual 7.2 consolida la paleta definitiva (`#FFFFFF`, `#D9D9D9`, `#262626`, `#A11917`) y reduce el espaciado vertical de las variantes globales. La landing de publicidad digital permanece intacta.

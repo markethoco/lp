@@ -1,0 +1,113 @@
+/* MarketHO — barra compacta de consentimiento de medición. */
+
+:root {
+  --marketho-consent-height: 52px;
+  --marketho-consent-collapsed-height: 34px;
+}
+
+body.has-marketho-consent-bar { padding-bottom: var(--marketho-consent-height); }
+body.has-marketho-consent-bar.consent-bar-collapsed { padding-bottom: var(--marketho-consent-collapsed-height); }
+
+.marketho-consent-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1100;
+  min-height: var(--marketho-consent-height);
+  color: #fff;
+  background: #262626;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.marketho-consent-bar__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: var(--marketho-consent-height);
+  padding: 7px 56px 7px 20px;
+}
+
+.marketho-consent-bar p { margin: 0; color: #fff; font: inherit; }
+.marketho-consent-bar a { color: #fff; text-underline-offset: 3px; white-space: nowrap; }
+.marketho-consent-bar__actions { display: flex; gap: 8px; }
+
+.marketho-consent-bar button {
+  min-height: 34px;
+  padding: 6px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 4px;
+  color: #fff;
+  background: transparent;
+  font: 600 14px/1.1 "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+
+.marketho-consent-bar__actions button:first-child { border-color: #fff; color: #262626; background: #fff; }
+.marketho-consent-bar button:hover,
+.marketho-consent-bar button:focus-visible { background: rgba(255, 255, 255, 0.16); }
+.marketho-consent-bar__actions button:first-child:hover,
+.marketho-consent-bar__actions button:first-child:focus-visible { background: #f0f0f0; }
+.marketho-consent-bar button:focus-visible,
+.marketho-consent-bar a:focus-visible { outline: 2px solid #d4af37; outline-offset: 3px; }
+
+.marketho-consent-bar__toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  display: grid;
+  width: 32px;
+  min-height: 32px;
+  padding: 0;
+  place-items: center;
+  transform: translateY(-50%);
+  border-color: transparent;
+  font-size: 20px;
+}
+
+.marketho-consent-bar__collapsed-label,
+.marketho-consent-bar__collapsed-arrow { display: none; }
+.marketho-consent-bar.is-collapsed { min-height: var(--marketho-consent-collapsed-height); }
+.marketho-consent-bar.is-collapsed .marketho-consent-bar__content {
+  justify-content: flex-start;
+  min-height: var(--marketho-consent-collapsed-height);
+  padding: 0 12px;
+}
+.marketho-consent-bar.is-collapsed .marketho-consent-bar__content > :not(.marketho-consent-bar__toggle) { display: none; }
+.marketho-consent-bar.is-collapsed .marketho-consent-bar__toggle {
+  position: static;
+  display: flex;
+  width: auto;
+  min-height: var(--marketho-consent-collapsed-height);
+  gap: 8px;
+  transform: none;
+  border: 0;
+  padding: 0;
+  font-size: 13px;
+}
+.marketho-consent-bar.is-collapsed .marketho-consent-bar__full-arrow { display: none; }
+.marketho-consent-bar.is-collapsed .marketho-consent-bar__collapsed-label,
+.marketho-consent-bar.is-collapsed .marketho-consent-bar__collapsed-arrow { display: inline; }
+
+body.has-marketho-consent-bar:not(.consent-bar-collapsed) .whatsapp-widget { bottom: calc(var(--marketho-consent-height) + 16px); }
+body.has-marketho-consent-bar.consent-bar-collapsed .whatsapp-widget { bottom: calc(var(--marketho-consent-collapsed-height) + 16px); }
+body.has-marketho-consent-bar:not(.consent-bar-collapsed) .float { bottom: calc(var(--marketho-consent-height) + 18px); z-index: 1101; }
+body.has-marketho-consent-bar.consent-bar-collapsed .float { bottom: calc(var(--marketho-consent-collapsed-height) + 18px); z-index: 1101; }
+
+@media (max-width: 700px) {
+  :root { --marketho-consent-height: 88px; }
+  .marketho-consent-bar__content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 5px 12px;
+    min-height: var(--marketho-consent-height);
+    padding: 9px 48px 9px 14px;
+  }
+  .marketho-consent-bar p { grid-column: 1 / -1; font-size: 13px; }
+  .marketho-consent-bar a { align-self: center; font-size: 13px; }
+  .marketho-consent-bar__actions { justify-content: flex-end; }
+  .marketho-consent-bar button { min-height: 32px; padding: 5px 10px; font-size: 13px; }
+}

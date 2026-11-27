@@ -7,10 +7,149 @@
     metaPixelId: "620475310847542"
   }, window.MARKETHO_MEASUREMENT || {});
   const storageKey = "marketho_measurement_consent";
+  const consentBarState = { element: null, collapsed: false, interacting: false, timer: null };
+
+  function loadConsentBarStyles() {
+    if (document.querySelector('link[data-market-consent-style="true"]')) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/css/consent-bar.css";
+    link.dataset.marketConsentStyle = "true";
+    document.head.appendChild(link);
+  }
+
+  function clearConsentBarTimer() {
+    if (consentBarState.timer) {
+      window.clearTimeout(consentBarState.timer);
+      consentBarState.timer = null;
+    }
+  }
+
+  function scheduleConsentBarMinimize() {
+    clearConsentBarTimer();
+    if (!consentBarState.element || consentBarState.collapsed || consentBarState.interacting) return;
+    consentBarState.timer = window.setTimeout(function () {
+      if (!consentBarState.interacting) minimizeConsentBar();
+    }, 15000);
+  }
+
+  function setConsentBarCollapsed(collapsed) {
+    if (!consentBarState.element) return;
+    consentBarState.collapsed = collapsed;
+    consentBarState.element.classList.toggle("is-collapsed", collapsed);
+    consentBarState.element.setAttribute("aria-expanded", String(!collapsed));
+    document.body.classList.toggle("consent-bar-collapsed", collapsed);
+    const toggle = consentBarState.element.querySelector("[data-consent-minimize]");
+    if (toggle) {
+      toggle.setAttribute("aria-label", collapsed ? "Mostrar preferencias de cookies" : "Minimizar barra de cookies");
+      toggle.setAttribute("title", collapsed ? "Mostrar barra de cookies" : "Minimizar barra de cookies");
+    }
+  }
+
+  function minimizeConsentBar() {
+    if (consentBarState.interacting) return;
+    setConsentBarCollapsed(true);
+    clearConsentBarTimer();
+  }
+
+  function hideConsentBar() {
+    clearConsentBarTimer();
+    if (!consentBarState.element) return;
+    consentBarState.element.hidden = true;
+    document.body.classList.remove("has-marketho-consent-bar", "consent-bar-collapsed");
+  }
+
+  function mountConsentBar() {
+    if (!document.body || hasConsentDecision() || document.getElementById("marketho-consent-bar")) return;
+    loadConsentBarStyles();
+    const bar = document.createElement("aside");
+    bar.id = "marketho-consent-bar";
+    bar.className = "marketho-consent-bar";
+    bar.setAttribute("aria-label", "Preferencias de cookies");
+    bar.setAttribute("aria-expanded", "true");
+    bar.innerHTML = `
+      <div class="marketho-consent-bar__content">
+        <p>Usamos cookies para medir y mejorar nuestros servicios y publicidad.</p>
+        <a href="/privacidad/#preferencias">Política de privacidad</a>
+        <div class="marketho-consent-bar__actions">
+          <button type="button" data-consent-grant>Aceptar</button>
+          <button type="button" data-consent-reject>Rechazar</button>
+        </div>
+        <button type="button" class="marketho-consent-bar__toggle" data-consent-minimize aria-label="Minimizar barra de cookies" title="Minimizar barra de cookies">
+          <span class="marketho-consent-bar__full-arrow" aria-hidden="true">⌄</span>
+          <span class="marketho-consent-bar__collapsed-label">Cookies</span>
+          <span class="marketho-consent-bar__collapsed-arrow" aria-hidden="true">⌃</span>
+        </button>
+      </div>`;
+    document.body.appendChild(bar);
+    consentBarState.element = bar;
+    document.body.classList.add("has-marketho-consent-bar");
+
+    bar.querySelector("[data-consent-grant]").addEventListener("click", function () {
+      window.MarkethoMeasurement.setConsent(true);
+      hideConsentBar();
+    });
+    bar.querySelector("[data-consent-reject]").addEventListener("click", function () {
+      window.MarkethoMeasurement.setConsent(false);
+      hideConsentBar();
+    });
+    bar.querySelector("[data-consent-minimize]").addEventListener("click", function () {
+      setConsentBarCollapsed(!consentBarState.collapsed);
+      if (consentBarState.collapsed) clearConsentBarTimer();
+      else scheduleConsentBarMinimize();
+    });
+    bar.addEventListener("pointerenter", function () {
+      consentBarState.interacting = true;
+      clearConsentBarTimer();
+    });
+    bar.addEventListener("pointerleave", function () {
+      consentBarState.interacting = false;
+      if (!consentBarState.collapsed) scheduleConsentBarMinimize();
+    });
+    bar.addEventListener("focusin", function () {
+      consentBarState.interacting = true;
+      clearConsentBarTimer();
+    });
+    bar.addEventListener("focusout", function () {
+      window.setTimeout(function () {
+        consentBarState.interacting = bar.contains(document.activeElement);
+        if (!consentBarState.interacting && !consentBarState.collapsed) scheduleConsentBarMinimize();
+      }, 0);
+    });
+    scheduleConsentBarMinimize();
+  }
+
+  function pushConsentCommand(action, values) {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () {
+      window.dataLayer.push(arguments);
+    };
+    window.gtag("consent", action, values);
+  }
+
+  function publishConsentState(granted) {
+    pushConsentCommand(granted ? "update" : "default", {
+      ad_storage: granted ? "granted" : "denied",
+      analytics_storage: granted ? "granted" : "denied",
+      ad_user_data: granted ? "granted" : "denied",
+      ad_personalization: granted ? "granted" : "denied",
+      functionality_storage: "denied",
+      personalization_storage: "denied",
+      security_storage: "granted",
+      wait_for_update: 500
+    });
+  }
 
   function readConsent() {
     try { return window.localStorage.getItem(storageKey) === "granted"; }
     catch (_) { return false; }
+  }
+
+  function hasConsentDecision() {
+    try {
+      const value = window.localStorage.getItem(storageKey);
+      return value === "granted" || value === "denied";
+    } catch (_) { return false; }
   }
 
   function loadProviders() {
@@ -33,9 +172,15 @@
     state.consent = readConsent();
     state.initialized = true;
     window.dataLayer = window.dataLayer || [];
+    publishConsentState(state.consent);
     window.dataLayer.push({ event: "measurement_ready", consent: state.consent });
     loadProviders();
     installInteractionTracking();
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", mountConsentBar, { once: true });
+    } else {
+      mountConsentBar();
+    }
   }
 
   function installInteractionTracking() {
@@ -70,7 +215,14 @@
       try { window.localStorage.setItem(storageKey, state.consent ? "granted" : "denied"); }
       catch (_) { /* almacenamiento no disponible */ }
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: "consent_update", consent: state.consent });
+      publishConsentState(state.consent);
+      window.dataLayer.push({
+        event: state.consent ? "consent_update" : "consent_revoked",
+        consent: state.consent
+      });
+      document.dispatchEvent(new CustomEvent("marketho:consent-change", {
+        detail: { consent: state.consent }
+      }));
       loadProviders();
     },
     event: function (name, details) {
