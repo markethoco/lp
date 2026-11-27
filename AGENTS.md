@@ -54,6 +54,16 @@ Una nueva landing debe reutilizar el contrato de lead, la atribución, Turnstile
 - La zona horaria explícita del proyecto es `America/Bogota`.
 - MarketHO conserva alcance comercial internacional y no aplica redirecciones, bloqueos ni variantes regionales inexistentes.
 
+## Estándar de medición y privacidad
+
+- public/js/measurement.js es la única capa compartida para GTM, Consent Mode v2 y eventos locales.
+- La medición opcional usa estados denegados por defecto y no interpreta la navegación como autorización.
+- No se muestran banners emergentes: las preferencias se gestionan de forma discreta desde el footer y /privacidad/#preferencias.
+- La autorización puede otorgarse o revocarse; al revocar, el almacenamiento queda en denied y las etiquetas no se cargan en visitas posteriores.
+- Los eventos comerciales no incluyen nombres, correos, teléfonos ni datos de formularios.
+- Los formularios y WhatsApp funcionan independientemente de la autorización de medición.
+- Cloudflare Web Analytics puede aportar estadísticas agregadas sin habilitar las etiquetas publicitarias.
+
 ## Estándar semántico y SEO global
 
 - La fuente compartida de identidad empresarial y catálogo Schema.org es `config/seo-pages.json`.

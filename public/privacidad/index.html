@@ -233,6 +233,40 @@
     </section>
 
 
+    <section class="section section--large section--surface-muted" id="preferencias">
+
+      <div class="container">
+
+        <div class="privacy-preferences">
+
+          <p class="section-eyebrow">Preferencias de privacidad</p>
+
+          <h2>Elige cómo quieres que midamos este sitio.</h2>
+
+          <p>
+            La medición opcional permanece desactivada hasta que la autorices.
+            Esta elección no bloquea la navegación ni afecta los formularios o
+            el contacto por WhatsApp.
+          </p>
+
+          <div class="privacy-preferences__actions" role="group" aria-label="Preferencias de medición">
+            <button class="btn btn--primary" type="button" data-consent-action="grant">
+              Permitir medición opcional
+            </button>
+            <button class="btn btn--secondary" type="button" data-consent-action="revoke">
+              Rechazar o retirar autorización
+            </button>
+          </div>
+
+          <p class="privacy-preferences__status" role="status" aria-live="polite" data-consent-status></p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
     <section class="section section--large section--surface-muted">
 
       <div class="container">
@@ -329,6 +363,125 @@
     </section>
 
 
+    <section class="section section--large section--surface-muted">
+
+      <div class="container">
+
+        <div class="solution__intro">
+
+          <div class="solution__heading">
+            <p class="section-eyebrow">Marco y responsable</p>
+            <h2>Tratamos la información con base en la normativa colombiana.</h2>
+          </div>
+
+          <div class="solution__description">
+            <p>
+              Esta política se interpreta de acuerdo con la Ley 1581 de 2012 y
+              el Decreto 1074 de 2015, en lo que resulte aplicable al
+              tratamiento de datos personales.
+            </p>
+            <p>
+              El responsable identificado para la atención de solicitudes es
+              MarketHO. Para ejercer tus derechos o realizar consultas puedes
+              escribir a <a href="mailto:info@marketho.co">info@marketho.co</a>
+              o llamar al <a href="tel:+573002553005">+57 300 255 3005</a>.
+            </p>
+            <p>
+              La razón social completa, domicilio para notificaciones y demás
+              datos formales del responsable están pendientes de confirmación
+              documental y no se declaran en esta versión.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="section section--large section--surface-white">
+
+      <div class="container">
+
+        <div class="solution__intro">
+
+          <div class="solution__heading">
+            <p class="section-eyebrow">Tecnologías y proveedores</p>
+            <h2>Qué herramientas pueden intervenir.</h2>
+          </div>
+
+          <div class="solution__description">
+            <p>
+              El sitio puede utilizar Google Tag Manager, Google Analytics,
+              Google Ads y Meta Pixel para medición y publicidad opcionales.
+              Estas herramientas permanecen bloqueadas hasta que otorgues una
+              autorización específica desde Preferencias de privacidad.
+            </p>
+            <p>
+              Cloudflare puede prestar infraestructura, seguridad, Web
+              Analytics agregado y Turnstile para proteger los formularios.
+              Google Sheets y Brevo se utilizan para organizar y atender las
+              solicitudes comerciales enviadas voluntariamente.
+            </p>
+            <p>
+              Algunos proveedores pueden tratar información desde otros
+              países. Las transferencias internacionales se realizan según la
+              configuración del servicio y las garantías aplicables; los
+              países, encargados y mecanismos jurídicos específicos que deban
+              declararse quedan pendientes de confirmación contractual.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="section section--large section--surface-muted">
+
+      <div class="container">
+
+        <div class="solution__intro">
+
+          <div class="solution__heading">
+            <p class="section-eyebrow">Derechos y seguridad</p>
+            <h2>Puedes consultar, reclamar o retirar tu autorización.</h2>
+          </div>
+
+          <div class="solution__description">
+            <p>
+              Puedes solicitar consulta, actualización, rectificación,
+              eliminación o revocación de autorizaciones cuando corresponda.
+              También puedes presentar un reclamo relacionado con el
+              tratamiento de tus datos.
+            </p>
+            <p>
+              Envía la solicitud a
+              <a href="mailto:info@marketho.co">info@marketho.co</a>,
+              indicando el derecho que deseas ejercer y la información
+              necesaria para ubicar la solicitud. El procedimiento de
+              verificación de identidad, los canales alternativos y los
+              tiempos legales de respuesta se precisarán cuando se confirme
+              formalmente la política interna aplicable.
+            </p>
+            <p>
+              MarketHO aplica controles técnicos y organizativos razonables
+              para proteger la información. Los periodos concretos de
+              conservación y eliminación están pendientes de definición según
+              cada finalidad y obligación aplicable.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
     <section class="section section--surface-muted">
 
       <div class="container">
@@ -363,6 +516,33 @@
   <script src="/js/site-header.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/whatsapp-widget.js"></script>
+
+  <script>
+    (function () {
+      function updateStatus() {
+        var status = document.querySelector("[data-consent-status]");
+        if (!status || !window.MarkethoMeasurement) return;
+        status.textContent = window.MarkethoMeasurement.hasConsent()
+          ? "Medición opcional autorizada en este navegador."
+          : "Medición opcional desactivada en este navegador.";
+      }
+
+      document.querySelectorAll("[data-consent-action]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          if (!window.MarkethoMeasurement) return;
+          window.MarkethoMeasurement.setConsent(button.dataset.consentAction === "grant");
+          updateStatus();
+        });
+      });
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", updateStatus);
+      } else {
+        updateStatus();
+      }
+      window.addEventListener("load", updateStatus);
+    }());
+  </script>
 
 </body>
 

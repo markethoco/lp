@@ -2970,6 +2970,34 @@ section.section--surface-carbon {
    REDUCED MOTION
    ========================================================= */
 
+/* =========================================================
+   PRIVACY PREFERENCES
+   ========================================================= */
+
+.privacy-preferences {
+  display: grid;
+  gap: 16px;
+  max-width: 720px;
+}
+
+.privacy-preferences__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.privacy-preferences__status {
+  min-height: 1.5em;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .privacy-preferences__actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   .js

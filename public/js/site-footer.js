@@ -6,12 +6,13 @@
       links: [
         ["Servicios", "/#servicios"],
         ["Portafolio", "/portafolio/"],
-        ["Privacidad", "/privacidad/"]
+        ["Privacidad", "/privacidad/"],
+        ["Preferencias de privacidad", "/privacidad/#preferencias"]
       ]
     },
     landing: {
       label: "MarketHO",
-      links: [["Privacidad", "/publicidad-digital/privacidad/"]]
+      links: [["Privacidad", "/publicidad-digital/privacidad/"], ["Preferencias de privacidad", "/privacidad/#preferencias"]]
     },
     minimal: { label: "MarketHO", links: [] }
   };
