@@ -243,6 +243,22 @@ async function saveLeadToBrevo(env, lead) {
   };
 
   /*
+   * Campos específicos de la landing de publicidad.
+   * Se mantienen fuera del contacto corporativo cuando no aplican.
+   */
+  const optionalLeadAttributes = {
+    EMPRESA: lead.empresa,
+    SERVICIO_INTERES: lead.servicio_interes,
+    PAIS_TELEFONO: lead.pais_telefono
+  };
+
+  for (const [key, value] of Object.entries(optionalLeadAttributes)) {
+    if (value) {
+      attributes[key] = value;
+    }
+  }
+
+  /*
    * Solamente incluir WHATSAPP cuando
    * tenga un formato internacional reconocido.
    */
@@ -309,6 +325,11 @@ async function saveLeadToBrevo(env, lead) {
   }
 
   let response = await createOrUpdateContact();
+  console.log("Brevo: respuesta de contacto", {
+    httpStatus: response.status,
+    created: response.status === 201,
+    updated: response.status === 204
+  });
 
   /*
    * Si Brevo rechaza específicamente
@@ -339,6 +360,12 @@ async function saveLeadToBrevo(env, lead) {
       delete attributes.WHATSAPP;
 
       response = await createOrUpdateContact();
+
+      console.log("Brevo: respuesta de contacto sin WHATSAPP", {
+        httpStatus: response.status,
+        created: response.status === 201,
+        updated: response.status === 204
+      });
 
       if (!response.ok) {
         detail = await response.json().catch(
@@ -371,7 +398,10 @@ async function saveLeadToBrevo(env, lead) {
     }
   }
 
-  return true;
+  return {
+    created: response.status === 201,
+    status: response.status
+  };
 }
 
 /* =========================================================
@@ -397,6 +427,11 @@ async function sendConfirmationEmail(env, lead) {
       body: JSON.stringify({
         templateId: 1,
 
+        sender: {
+          email: "info@marketho.co",
+          name: "MarketHO"
+        },
+
         to: [
           {
             email: lead.email,
@@ -417,10 +452,18 @@ async function sendConfirmationEmail(env, lead) {
   );
 
   if (!response.ok) {
+    console.error("Brevo: respuesta de correo", {
+      httpStatus: response.status
+    });
     throw new Error(
       `Brevo no pudo enviar el correo. HTTP ${response.status}`
     );
   }
+
+  console.log("Brevo: respuesta de correo", {
+    httpStatus: response.status,
+    ok: response.ok
+  });
 
   return true;
 }
@@ -776,13 +819,18 @@ async function handleContact(request, env, isPublicidad = false) {
      * en Google Sheets permanece disponible.
      */
     try {
-      await saveLeadToBrevo(env, lead);
+      const brevoContact =
+        await saveLeadToBrevo(env, lead);
 
       console.log(
         "Brevo: contacto registrado correctamente"
       );
 
-      try {
+      if (!brevoContact.created) {
+        console.log(
+          "Brevo: correo de bienvenida omitido para contacto existente"
+        );
+      } else try {
         await sendConfirmationEmail(env, lead);
 
         console.log(
