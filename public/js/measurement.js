@@ -85,11 +85,13 @@
     consentBarState.element = bar;
     document.body.classList.add("has-marketho-consent-bar");
 
-    bar.querySelector("[data-consent-grant]").addEventListener("click", function () {
+    bar.querySelector("[data-consent-grant]").addEventListener("click", function (event) {
+      event.stopPropagation();
       window.MarkethoMeasurement.setConsent(true);
       hideConsentBar();
     });
-    bar.querySelector("[data-consent-reject]").addEventListener("click", function () {
+    bar.querySelector("[data-consent-reject]").addEventListener("click", function (event) {
+      event.stopPropagation();
       window.MarkethoMeasurement.setConsent(false);
       hideConsentBar();
     });
@@ -152,8 +154,46 @@
     } catch (_) { return false; }
   }
 
+  function clearMeasurementCookies() {
+    if (typeof document === "undefined") return;
+    const cookieNames = document.cookie.split(";").map(function (cookie) {
+      return cookie.split("=")[0].trim();
+    }).filter(function (name) {
+      return /^(?:_ga|_gid|_gat|_gcl_|_fbp|_fbc)/i.test(name);
+    });
+    cookieNames.forEach(function (name) {
+      document.cookie = name + "=; Max-Age=0; path=/; SameSite=Lax";
+      document.cookie = name + "=; Max-Age=0; path=/; domain=" + window.location.hostname + "; SameSite=Lax";
+    });
+  }
+
+  function installConsentControlGuard() {
+    // GTM's Meta template listens for clicks during capture. Handle only
+    // consent controls here so their clicks cannot become ad events.
+    document.addEventListener("click", function (event) {
+      const control = event.target.closest(
+        "[data-consent-grant], [data-consent-reject], [data-consent-action]"
+      );
+      if (!control) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const granted = control.matches("[data-consent-grant], [data-consent-action='grant']");
+      window.MarkethoMeasurement.setConsent(granted);
+      if (control.matches("[data-consent-grant], [data-consent-reject]")) hideConsentBar();
+      const status = document.querySelector("[data-consent-status]");
+      if (status) {
+        status.textContent = granted
+          ? "Medición opcional autorizada en este navegador."
+          : "Medición opcional desactivada en este navegador.";
+      }
+    }, true);
+  }
+
   function loadProviders() {
-    if (state.providersLoaded || !state.consent || !config.gtmId) return;
+    // The container is global. Consent Mode controls individual tags and
+    // permits compliant cookieless measurement before an optional grant.
+    // A previously stored rejection is a hard stop for subsequent visits.
+    if (state.providersLoaded || !config.gtmId || (hasConsentDecision() && !state.consent)) return;
     state.providersLoaded = true;
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
@@ -174,6 +214,7 @@
     window.dataLayer = window.dataLayer || [];
     publishConsentState(state.consent);
     window.dataLayer.push({ event: "measurement_ready", consent: state.consent });
+    installConsentControlGuard();
     loadProviders();
     installInteractionTracking();
     if (document.readyState === "loading") {
@@ -216,6 +257,9 @@
       catch (_) { /* almacenamiento no disponible */ }
       window.dataLayer = window.dataLayer || [];
       publishConsentState(state.consent);
+      window.gtag("set", "ads_data_redaction", !state.consent);
+      window.gtag("set", "allow_google_signals", state.consent);
+      if (!state.consent) clearMeasurementCookies();
       window.dataLayer.push({
         event: state.consent ? "consent_update" : "consent_revoked",
         consent: state.consent
@@ -224,6 +268,12 @@
         detail: { consent: state.consent }
       }));
       loadProviders();
+      if (!state.consent) {
+        // GTM and third-party tags cannot be unloaded reliably. Reloading
+        // ends the current execution context; the persisted denial prevents
+        // the container from loading again until the visitor grants access.
+        window.setTimeout(function () { window.location.reload(); }, 0);
+      }
     },
     event: function (name, details) {
       window.dataLayer = window.dataLayer || [];

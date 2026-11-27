@@ -244,9 +244,12 @@
           <h2>Elige cómo quieres que midamos este sitio.</h2>
 
           <p>
-            La medición opcional permanece desactivada hasta que la autorices.
-            Esta elección no bloquea la navegación ni afecta los formularios o
-            el contacto por WhatsApp.
+            La carga del contenedor Google Tag Manager es global. Antes de una
+            elección, Consent Mode mantiene denegados por defecto el
+            almacenamiento de analítica y publicidad, pero permite las señales
+            técnicas y cookieless que las plataformas admiten para medir el
+            funcionamiento general del sitio. Esta elección no bloquea la
+            navegación ni afecta los formularios o el contacto por WhatsApp.
           </p>
 
           <div class="privacy-preferences__actions" role="group" aria-label="Preferencias de medición">
@@ -413,10 +416,15 @@
 
           <div class="solution__description">
             <p>
-              El sitio puede utilizar Google Tag Manager, Google Analytics,
-              Google Ads y Meta Pixel para medición y publicidad opcionales.
-              Estas herramientas permanecen bloqueadas hasta que otorgues una
-              autorización específica desde Preferencias de privacidad.
+              El sitio carga globalmente Google Tag Manager como contenedor.
+              Dentro de él, Google Analytics 4 se utiliza para analítica y
+              medición de audiencia; Google Ads puede utilizarse para
+              remarketing; y Meta Pixel para medición publicitaria. Consent
+              Mode v2 mantiene denegados por defecto el almacenamiento y las
+              funciones publicitarias que requieren autorización. Las etiquetas
+              que requieran consentimiento se activan individualmente cuando
+              lo otorgas desde Preferencias de privacidad, sin bloquear el
+              contenedor ni las señales técnicas permitidas.
             </p>
             <p>
               Cloudflare puede prestar infraestructura, seguridad, Web
@@ -430,6 +438,12 @@
               configuración del servicio y las garantías aplicables; los
               países, encargados y mecanismos jurídicos específicos que deban
               declararse quedan pendientes de confirmación contractual.
+            </p>
+            <p>
+              MarketHO no vende, alquila ni comercializa bases de datos
+              personales. La información recibida se utiliza para las
+              finalidades descritas en esta política y no se entrega para su
+              comercialización como base de datos.
             </p>
           </div>
 
@@ -528,8 +542,9 @@
       }
 
       document.querySelectorAll("[data-consent-action]").forEach(function (button) {
-        button.addEventListener("click", function () {
+        button.addEventListener("click", function (event) {
           if (!window.MarkethoMeasurement) return;
+          event.stopPropagation();
           window.MarkethoMeasurement.setConsent(button.dataset.consentAction === "grant");
           updateStatus();
         });
